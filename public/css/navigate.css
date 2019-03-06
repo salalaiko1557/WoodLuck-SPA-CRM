@@ -1,0 +1,20 @@
+.custom-menu{
+    background-color: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    height: 100vh;
+}
+.menu-items{
+    text-align: center;
+    line-height: 3;
+}
+.avatar__wr{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.avatar__wr > img{
+    border-radius: 100px;
+}
+.menu-items > li > a{
+    color: black
+}
