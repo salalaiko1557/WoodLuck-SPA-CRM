@@ -27,6 +27,7 @@ Vue.use(VueRouter)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('custom-menu', require('./components/CustomMenu.vue').default);
+Vue.component('loader', require('./components/Loader.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -35,13 +36,18 @@ Vue.component('custom-menu', require('./components/CustomMenu.vue').default);
  */
 import Home from './pages/Home.vue';
 import Orders from './pages/Orders.vue';
+import NotFound from './pages/NotFound.vue';
+
+import OrdersEdit from './components/OrdersEdit.vue'
+import OrdersCreate from './components/OrdersCreate.vue'
+
 
 
 const router = new VueRouter({
     mode: 'history',
     routes: [
         {
-            path: '/',
+            path: '/home',
             name: 'home',
             component: Home
         },
@@ -50,6 +56,23 @@ const router = new VueRouter({
             name: 'orders.index',
             component: Orders,
         },
+        {
+            path: '/orders/:id/edit',
+            name: 'orders.edit',
+            component: OrdersEdit,
+        },
+        {
+            path: '/orders/create',
+            name: 'orders.create',
+            component: OrdersCreate,
+        },
+        {
+            path: '/login',
+            name: 'login',
+        },
+        // события 404
+        { path: '/404', name: '404', component: NotFound },
+        { path: '*', redirect: '/404' },
     ],
 });
 

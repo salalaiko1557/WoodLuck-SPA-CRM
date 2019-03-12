@@ -32,7 +32,7 @@ class CreateOrdersTable extends Migration
             //Индексация с таблицей СКЛАД
             //$table->foreign('material_id')->references('id')->on('stock')->onDelete('cascade');
             $table->integer('material_count')->nullable();
-            $table->integer('canban_status')->default(1);
+            $table->integer('canban_status')->default(999);
             $table->string('draw')->nullable();
             $table->timestamps();
         });

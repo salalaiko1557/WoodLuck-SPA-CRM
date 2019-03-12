@@ -16,6 +16,14 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/orders', function () {
-    return factory('App\User', 10)->make();
+Route::namespace('Api')->group(function () {
+    //слой связки api
+    //Заказы
+    Route::get('/orders',            'OrderController@all');
+    Route::get('/orders/{order}',    'OrderController@show');
+    Route::put('/orders/{order}',    'OrderController@update');
+    Route::post('/orders/updateAll',  'OrderController@updateAll');
+    Route::delete('/orders/{order}', 'OrderController@destroy');
+    Route::post('/orders/create',    'OrderController@create');
+    ////
 });

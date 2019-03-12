@@ -22,5 +22,5 @@ Route::match(['post', 'get'], 'register', function(){
     return redirect('/');
 })->name('register');
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/{any}', 'PagesController@index')->where('any', '.*');

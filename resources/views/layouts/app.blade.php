@@ -28,12 +28,19 @@
     <div id="app">
         @guest
         <main class="px-0 py-3 ">
-                @yield('content')
-                <router-view></router-view>
+            <div class="top-right links">
+                @auth
+                    <a href="{{ url('/home') }}">Головна</a>
+                    @yield('content')
+                @else
+                    <a href="{{ route('login') }}">Увiйти в систему</a>
+                    @yield('content')
+                @endauth
+            </div>
         </main>
         @else
             @include('layouts.navigate')
-        <main class="px-0 py-3 ">
+        <main class="px-0 py-3">
             @yield('content')
             <router-view></router-view>
         </main>
