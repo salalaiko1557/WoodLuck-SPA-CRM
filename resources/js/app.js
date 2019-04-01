@@ -26,7 +26,7 @@ Vue.use(VueRouter)
 
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
-
+Vue.component('role-helper', require('./components/RoleHelper.vue').default);
 Vue.component('custom-menu', require('./components/CustomMenu.vue').default);
 Vue.component('loader', require('./components/Loader.vue').default);
 
@@ -39,6 +39,8 @@ import Home from './pages/Home.vue';
 import Orders from './pages/Orders.vue';
 import Customers from './pages/Customers.vue';
 import Stock from './pages/Stock.vue';
+import Users from './pages/Users.vue';
+
 
 import NotFound from './pages/NotFound.vue';
 
@@ -48,6 +50,10 @@ import CustomersCreate from './components/CustomersCreate.vue'
 import CustomersEdit from './components/CustomersEdit.vue'
 import MaterialEdit from './components/MaterialEdit.vue'
 import MaterialCreate from './components/MaterialCreate.vue'
+import UsersCreate from './components/UsersCreate.vue'
+import UsersEdit from './components/UsersEdit.vue'
+
+
 
 const router = new VueRouter({
     mode: 'history',
@@ -60,10 +66,6 @@ const router = new VueRouter({
         {
             path: '/login',
             name: 'login',
-        },
-        {
-            path: '/register',
-            name: 'register',
         },
 // роуты заказов
         {
@@ -116,6 +118,23 @@ const router = new VueRouter({
             component: MaterialCreate,
         },
 // роуты склада
+// роуты пользователей
+        {
+            path: '/users',
+            name: 'users.index',
+            component: Users,
+        },
+        {
+            path: '/users/create',
+            name: 'users.create',
+            component: UsersCreate,
+        },
+        {
+            path: '/users/:id/edit',
+            name: 'users.edit',
+            component: UsersEdit,
+        },
+// роуты пользователей
 
 // события 404
         { path: '/404', name: '404', component: NotFound },

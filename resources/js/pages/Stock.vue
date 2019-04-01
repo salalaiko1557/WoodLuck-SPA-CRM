@@ -1,92 +1,99 @@
 <template>
    <v-app>
-      <div v-if="error" class="error">
-            {{ error }}
-      </div>
-        <!-- SHOW MODAL WINDOW -->
-
-
-       <v-dialog v-model="dialog" max-width="290">
-      <v-card>
-        <v-card-title class="headline">Видалити матерiал {{dialog_material_name}}?</v-card-title>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="green darken-1"
-            flat="flat"
-            @click="dropDialog()"
-          >
-            Нi
-          </v-btn>
-          <v-btn
-            color="green darken-1"
-            flat="flat"
-            @click="onDelete(dialog_material_id)"
-          >
-            Так
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-      <v-container>
+       <div v-if="role === '2'">
+        <div v-if="error" class="error">
+                {{ error }}
+        </div>
+            <!-- SHOW MODAL WINDOW -->
+        <v-dialog v-model="dialog" max-width="290">
         <v-card>
-            <v-card-title>
-            <v-text-field
-                v-model="search"
-                append-icon="search"
-                label="Search"
-                single-line
-                hide-details
-            ></v-text-field>
-            </v-card-title>
-            <v-data-table
-            v-if="materials"
-            :headers="headers"
-            :items="materials"
-            :search="search"
+            <v-card-title class="headline">Видалити матерiал {{dialog_material_name}}?</v-card-title>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+                color="green darken-1"
+                flat="flat"
+                @click="dropDialog()"
             >
-            <template v-slot:items="props">
-                <td class="text-xs-left">{{ props.item.name }}</td>
-                <td class="text-xs-left">{{ props.item.count }}</td>
-                <td class="text-xs-left">{{ props.item.mire_id }}</td>
-                <td class="text-xs-left">
-                    <v-btn flat icon color="indigo">
-                            <router-link class="primary-button-options" :to="{ path: 'stock/'+ props.item.id +'/edit' }">
-                                <v-icon size="15px">edit</v-icon>
-                            </router-link>
-                    </v-btn>
-                    <v-btn @click="showDialog(props.item.id, props.item.name)" flat icon color="deep-orange">
-                        <v-icon size="15px">delete</v-icon>
-                    </v-btn>
-                </td>
-
-            </template>
-            <template v-slot:footer>
-                <td :colspan="headers.length">
-                    <router-link class="primary-button-options" :to="{ name: 'stocks.create' }">
-                        <v-btn color="blue-grey" class="white--text">
-                            Додати матерiал
-                            <v-icon right dark>add_circle_outline</v-icon>
-                        </v-btn>
-                    </router-link>
-                </td>
-    </template>
-            <v-alert v-slot:no-results :value="true" color="error" icon="warning">
-                Your search for "{{ search }}" found no results.
-            </v-alert>
-            </v-data-table>
+                Нi
+            </v-btn>
+            <v-btn
+                color="green darken-1"
+                flat="flat"
+                @click="onDelete(dialog_material_id)"
+            >
+                Так
+            </v-btn>
+            </v-card-actions>
         </v-card>
-    </v-container>
+        </v-dialog>
+
+        <v-container>
+            <v-card>
+                <v-card-title>
+                <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Search"
+                    single-line
+                    hide-details
+                ></v-text-field>
+                </v-card-title>
+                <v-data-table
+                v-if="materials"
+                :headers="headers"
+                :items="materials"
+                :search="search"
+                >
+                <template v-slot:items="props">
+                    <td class="text-xs-left">{{ props.item.name }}</td>
+                    <td class="text-xs-left">{{ props.item.count }}</td>
+                    <td class="text-xs-left">{{ props.item.mire_id }}</td>
+                    <td class="text-xs-left">
+                        <v-btn flat icon color="indigo">
+                                <router-link class="primary-button-options" :to="{ path: 'stock/'+ props.item.id +'/edit' }">
+                                    <v-icon size="15px">edit</v-icon>
+                                </router-link>
+                        </v-btn>
+                        <v-btn @click="showDialog(props.item.id, props.item.name)" flat icon color="deep-orange">
+                            <v-icon size="15px">delete</v-icon>
+                        </v-btn>
+                    </td>
+
+                </template>
+                <template v-slot:footer>
+                    <td :colspan="headers.length">
+                        <router-link class="primary-button-options" :to="{ name: 'stocks.create' }">
+                            <v-btn color="blue-grey" class="white--text">
+                                Додати матерiал
+                                <v-icon right dark>add_circle_outline</v-icon>
+                            </v-btn>
+                        </router-link>
+                    </td>
+        </template>
+                <v-alert v-slot:no-results :value="true" color="error" icon="warning">
+                    Your search for "{{ search }}" found no results.
+                </v-alert>
+                </v-data-table>
+            </v-card>
+        </v-container>
+    </div>
+    <div v-else>
+        У вас немає прав на перегляд цих даних
+    </div>
   </v-app>
 </template>
 
 <script>
 import api from '../api/stocks';
-
+import RoleHelper from '../components/RoleHelper.vue'
   export default {
+    components: {
+        RoleHelper
+    },
     data () {
       return {
+        role: '',
         search: '',
         error: null,
         saving: false,
@@ -103,6 +110,7 @@ import api from '../api/stocks';
       }
     },
     created(){
+        this.getRole()
         this.getMaterials();
     },
     methods:{
@@ -136,7 +144,12 @@ import api from '../api/stocks';
             this.dialog = false;
             this.dialog_material_id = null;
             this.dialog_material_name = '';
+        },
+        getRole(){
+            if (localStorage.role) {
+                this.role = localStorage.role;
+            }
         }
-    }
+    },
   }
 </script>

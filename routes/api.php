@@ -51,4 +51,12 @@ Route::namespace('Api')->group(function () {
     Route::delete('/stock/{stock}', 'StockController@destroy');
     Route::post('/stock/create',    'StockController@create');
     Route::post('/stock/check',      'StockController@check');
+    ////
+    //Пользователи
+    Route::get('/users',           'UserController@all');
+    Route::get('/users/{user}',    'UserController@show');
+    Route::put('/users/{user}',    'UserController@update');
+    Route::delete('/users/{user}', 'UserController@destroy');
+    Route::post('/users/create',   'UserController@create');
+    ////
 });

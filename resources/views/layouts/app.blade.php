@@ -38,6 +38,9 @@
             @include('layouts.navigate')
         <main class="px-0 py-3">
             @yield('content')
+            <role-helper
+            :role = "{{ json_encode($role) }}"
+            ></role-helper>
             <router-view></router-view>
         </main>
         @endguest

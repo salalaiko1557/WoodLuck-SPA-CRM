@@ -74,10 +74,5 @@
       }
     },
     props:['username', 'menu'],
-    computed: {
-        getName(){
-            console.log(this.username);
-        }
-    }
   }
 </script>

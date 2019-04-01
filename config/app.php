@@ -177,6 +177,7 @@ return [
 
         //CUSTOM PROVIDERS
         App\Providers\MenuServiceProvider::class,
+        App\Providers\RoleServiceProvider::class,
 
     ],
 
