@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Orders extends Model
 {
+    protected $casts = [
+        'material_id' => 'array',
+    ];
     protected $fillable =
     [
         'id',
@@ -21,5 +24,6 @@ class Orders extends Model
         'canban_status',
         'canban_column',
         'draw',
+        'mires_id'
     ];
 }

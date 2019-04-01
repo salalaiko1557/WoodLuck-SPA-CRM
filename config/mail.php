@@ -55,10 +55,7 @@ return [
     |
     */
 
-    'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
-    ],
+    'from' => ['address' => 'salalaiko1557@gmail.com', 'name' => 'test'],
 
     /*
     |--------------------------------------------------------------------------
@@ -133,4 +130,5 @@ return [
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
+    'pretend' => false,
 ];

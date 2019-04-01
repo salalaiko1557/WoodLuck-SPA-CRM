@@ -28,7 +28,7 @@ class CreateOrdersTable extends Migration
             $table->text('description')->nullable();
             $table->text('text_execution')->nullable();
             $table->timestamp('date_execution')->useCurrent();
-            $table->integer('material_id')->nullable();
+            $table->text('material_id')->nullable();
             //Индексация с таблицей СКЛАД
             //$table->foreign('material_id')->references('id')->on('stock')->onDelete('cascade');
             $table->integer('material_count')->nullable();

@@ -22,8 +22,33 @@ Route::namespace('Api')->group(function () {
     Route::get('/orders',            'OrderController@all');
     Route::get('/orders/{order}',    'OrderController@show');
     Route::put('/orders/{order}',    'OrderController@update');
-    Route::post('/orders/updateAll',  'OrderController@updateAll');
+    Route::post('/orders/updateAll', 'OrderController@updateAll');
     Route::delete('/orders/{order}', 'OrderController@destroy');
     Route::post('/orders/create',    'OrderController@create');
     ////
+    //Клиенты
+    Route::get('/customers',               'CustomerController@all');
+    Route::get('/customers/{customer}',    'CustomerController@show');
+    Route::put('/customers/{customer}',    'CustomerController@update');
+    Route::post('/customers/updateAll',    'CustomerController@updateAll');
+    Route::delete('/customers/{customer}', 'CustomerController@destroy');
+    Route::post('/customers/create',       'CustomerController@create');
+    ////
+    //Таргеты
+    Route::get('/sources', 'SourceController@all');
+    ////
+    //Способы оплаты
+    Route::get('/paystype', 'PayTypeController@all');
+    ////
+    //Меры измерения
+    Route::get('/mires', 'MiresController@all');
+    ////
+    //Склад
+    Route::get('/stock',            'StockController@all');
+    Route::get('/stock/{stock}',    'StockController@show');
+    Route::put('/stock/{stock}',    'StockController@update');
+    Route::post('/stock/updateAll', 'StockController@updateAll');
+    Route::delete('/stock/{stock}', 'StockController@destroy');
+    Route::post('/stock/create',    'StockController@create');
+    Route::post('/stock/check',      'StockController@check');
 });

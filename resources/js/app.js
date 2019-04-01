@@ -12,6 +12,7 @@ import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
+
 Vue.use(Vuetify)
 Vue.use(VueRouter)
 
@@ -36,10 +37,20 @@ Vue.component('loader', require('./components/Loader.vue').default);
  */
 import Home from './pages/Home.vue';
 import Orders from './pages/Orders.vue';
+import Customers from './pages/Customers.vue';
+import Stock from './pages/Stock.vue';
+
 import NotFound from './pages/NotFound.vue';
 
 import OrdersEdit from './components/OrdersEdit.vue'
 import OrdersCreate from './components/OrdersCreate.vue'
+import CustomersCreate from './components/CustomersCreate.vue'
+import CustomersEdit from './components/CustomersEdit.vue'
+import MaterialEdit from './components/MaterialEdit.vue'
+import MaterialCreate from './components/MaterialCreate.vue'
+
+
+
 
 
 
@@ -51,6 +62,11 @@ const router = new VueRouter({
             name: 'home',
             component: Home
         },
+        {
+            path: '/login',
+            name: 'login',
+        },
+// роуты заказов
         {
             path: '/orders',
             name: 'orders.index',
@@ -66,11 +82,43 @@ const router = new VueRouter({
             name: 'orders.create',
             component: OrdersCreate,
         },
+// роуты заказов
+// роуты клиентов
         {
-            path: '/login',
-            name: 'login',
+            path: '/customers',
+            name: 'customers.index',
+            component: Customers,
         },
-        // события 404
+        {
+            path: '/customers/:id/edit',
+            name: 'customers.edit',
+            component: CustomersEdit,
+        },
+        {
+            path: '/customers/create',
+            name: 'customers.create',
+            component: CustomersCreate,
+        },
+// роуты клиентов
+// роуты склада
+        {
+            path: '/stock',
+            name: 'stocks.index',
+            component: Stock,
+        },
+        {
+            path: '/stock/:id/edit',
+            name: 'stocks.edit',
+            component: MaterialEdit,
+        },
+        {
+            path: '/stock/create',
+            name: 'stocks.create',
+            component: MaterialCreate,
+        },
+// роуты склада
+
+// события 404
         { path: '/404', name: '404', component: NotFound },
         { path: '*', redirect: '/404' },
     ],

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStockTable extends Migration
+class CreatePaysTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateStockTable extends Migration
      */
     public function up()
     {
-        Schema::create('stock', function (Blueprint $table) {
+        Schema::create('pays_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
-            $table->integer('mire_id')->nullable();
-            //Индексация с таблицей СКЛАД
-            //$table->foreign('mire_id')->references('id')->on('mires')->onDelete('cascade');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateStockTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stock');
+        Schema::dropIfExists('pays_types');
     }
 }

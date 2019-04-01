@@ -30,8 +30,6 @@ class MenuServiceProvider extends ServiceProvider
     }
     public function generalMenu(){
         View::composer('layouts.navigate', function($view){
-            //$menu = ["Склад", "Заказы", "Клиенты"];
-            //$username = Auth::user()->name;
             $data = [ 'logged_user' => \Auth::User()->name ];
             $view->with('menu', MenuItem::all())->with('username', $data);
         });

@@ -45,11 +45,20 @@ class OrderController extends Controller
     }
     public function update(Orders $order, Request $request)
     {
-        // info($request)
         $data = $request->validate([
-             'price' => '',
-             'description' => '',
-             'canban_column' => ''
+            'customer_id'    => '',
+            'order_type_id'  => '',
+            'price'          => '',
+            'pay_type_id'    => '',
+            'description'    => '',
+            'text_execution' => '',
+            'date_execution' => '',
+            'material_id'    => '',
+            'material_count' => '',
+            'canban_status'  => '',
+            'canban_column'  => '',
+            'draw'           => '',
+            'mires_id'       => ''
         ]);
 
         $order->update($data);
@@ -62,18 +71,31 @@ class OrderController extends Controller
 
         return response(null, 204);
     }
-    public function create(Orders $order, Request $request){
+    public function create(Orders $order, Request $request)
+    {
 
         $data = $request->validate([
-            'price' => 'required',
-            'description' => 'required',
+            'customer_id'    => '',
+            'order_type_id'  => '',
+            'price'          => '',
+            'pay_type_id'    => '',
+            'description'    => '',
+            'text_execution' => '',
+            'date_execution' => '',
+            'material_id'    => '',
+            'material_count' => '',
+            'canban_status'  => '',
+            'canban_column'  => '',
+            'draw'           => '',
+            'mires_id'       => ''
         ]);
 
         $order->create($data);
 
         return new OrderResource($order);
     }
-    public function updateAll(Request $request){
+    public function updateAll(Request $request)
+    {
 
         $orders = Orders::all();
         foreach ($orders as $order){
