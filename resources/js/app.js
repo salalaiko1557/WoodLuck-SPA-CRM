@@ -49,11 +49,6 @@ import CustomersEdit from './components/CustomersEdit.vue'
 import MaterialEdit from './components/MaterialEdit.vue'
 import MaterialCreate from './components/MaterialCreate.vue'
 
-
-
-
-
-
 const router = new VueRouter({
     mode: 'history',
     routes: [
@@ -65,6 +60,10 @@ const router = new VueRouter({
         {
             path: '/login',
             name: 'login',
+        },
+        {
+            path: '/register',
+            name: 'register',
         },
 // роуты заказов
         {

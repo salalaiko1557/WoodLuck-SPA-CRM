@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -29,13 +30,8 @@
         @guest
         <main class="px-0 py-3 ">
             <div class="top-right links">
-                @auth
-                    <a href="{{ url('/home') }}">Головна</a>
-                    @yield('content')
-                @else
                     <a href="{{ route('login') }}">Увiйти в систему</a>
                     @yield('content')
-                @endauth
             </div>
         </main>
         @else
@@ -48,3 +44,6 @@
     </div>
 </body>
 </html>
+
+
+

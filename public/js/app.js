@@ -86410,6 +86410,9 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
   }, {
     path: '/login',
     name: 'login'
+  }, {
+    path: '/register',
+    name: 'register'
   }, // роуты заказов
   {
     path: '/orders',

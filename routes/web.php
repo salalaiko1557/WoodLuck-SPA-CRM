@@ -18,9 +18,12 @@ Route::get('/', function () {
 Auth::routes();
 //Выключаем регистрацию
 Route::match(['post', 'get'], 'register', function(){
-    Auth::logout();
-    return redirect('/');
+    return redirect('/login');
 })->name('register');
 
-//Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/{any}', 'PagesController@index')->where('any', '.*');
+
+// Auth::routes();
+
+// Route::get('/home', 'HomeController@index')->name('home');
