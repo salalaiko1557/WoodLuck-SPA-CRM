@@ -1825,6 +1825,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3617,6 +3622,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3676,6 +3687,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.umd.min.js");
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_Loader_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Loader.vue */ "./resources/js/components/Loader.vue");
+/* harmony import */ var _api_customers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api/customers */ "./resources/js/api/customers.js");
 //
 //
 //
@@ -3884,6 +3896,96 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -3896,7 +3998,10 @@ __webpack_require__.r(__webpack_exports__);
       canban_second_column: null,
       canban_third_column: null,
       canban_fourth_column: null,
-      canban_fiveth_column: null
+      canban_fiveth_column: null,
+      customers: [],
+      dialog: false,
+      dialog_id: ''
     };
   },
   components: {
@@ -3905,6 +4010,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.getData();
+    this.getCusomersList();
   },
   methods: {
     getData: function getData() {
@@ -3930,9 +4036,9 @@ __webpack_require__.r(__webpack_exports__);
       _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].update(id, {
         canban_column: col
       }).then(function (response) {
-        _this2.error = 'State saved!';
+        _this2.error = 'Стан замовлень було змiнено';
         setTimeout(function () {
-          return _this2.message = null;
+          return _this2.error = null;
         }, 2000);
       }).catch(function (error) {
         _this2.error = error.response.data.message || error.message;
@@ -3947,9 +4053,9 @@ __webpack_require__.r(__webpack_exports__);
       _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].updateAll({
         data: this.canban_first_column
       }).then(function (response) {
-        _this3.error = 'State saved!';
+        _this3.error = 'Стан замовлень було змiнено';
         setTimeout(function () {
-          return _this3.message = null;
+          return _this3.error = null;
         }, 2000);
       }).catch(function (error) {
         _this3.error = error.response.data.message || error.message;
@@ -3964,9 +4070,9 @@ __webpack_require__.r(__webpack_exports__);
       _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].updateAll({
         data: this.canban_second_column
       }).then(function (response) {
-        _this4.error = 'State saved!';
+        _this4.error = 'Стан замовлень було змiнено';
         setTimeout(function () {
-          return _this4.message = null;
+          return _this4.error = null;
         }, 2000);
       }).catch(function (error) {
         _this4.error = error.response.data.message || error.message;
@@ -3981,9 +4087,9 @@ __webpack_require__.r(__webpack_exports__);
       _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].updateAll({
         data: this.canban_third_column
       }).then(function (response) {
-        _this5.error = 'State saved!';
+        _this5.error = 'Стан замовлень було змiнено';
         setTimeout(function () {
-          return _this5.message = null;
+          return _this5.error = null;
         }, 2000);
       }).catch(function (error) {
         _this5.error = error.response.data.message || error.message;
@@ -3998,9 +4104,9 @@ __webpack_require__.r(__webpack_exports__);
       _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].updateAll({
         data: this.canban_fourth_column
       }).then(function (response) {
-        _this6.error = 'State saved!';
+        _this6.error = 'Стан замовлень було змiнено';
         setTimeout(function () {
-          return _this6.message = null;
+          return _this6.error = null;
         }, 2000);
       }).catch(function (error) {
         _this6.error = error.response.data.message || error.message;
@@ -4015,13 +4121,44 @@ __webpack_require__.r(__webpack_exports__);
       _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].updateAll({
         data: this.canban_fiveth_column
       }).then(function (response) {
-        _this7.error = 'State saved!';
+        _this7.error = 'Стан замовлень було змiнено';
         setTimeout(function () {
-          return _this7.message = null;
+          return _this7.error = null;
         }, 2000);
       }).catch(function (error) {
         _this7.error = error.response.data.message || error.message;
       });
+    },
+    getCusomersList: function getCusomersList() {
+      var _this8 = this;
+
+      _api_customers__WEBPACK_IMPORTED_MODULE_3__["default"].all().then(function (response) {
+        _this8.customers = response.data.data;
+      }).catch(function (error) {
+        _this8.error = error.response.data.message || error.message;
+      });
+    },
+    onDelete: function onDelete() {
+      var _this9 = this;
+
+      this.saving = true;
+      _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].delete(this.dialog_id).then(function (response) {
+        _this9.message = 'Замовлення видалено';
+
+        _this9.dropDialog();
+
+        location.reload();
+      }).catch(function (error) {
+        _this9.error = error.response.data.message || error.message;
+      });
+    },
+    dropDialog: function dropDialog() {
+      this.dialog = false;
+      this.dialog_id = null;
+    },
+    showDialog: function showDialog(id) {
+      this.dialog_id = id;
+      this.dialog = true;
     }
   }
 });
@@ -8840,6 +8977,25 @@ exports.push([module.i, "/*!\n* Vuetify v1.5.4\n* Forged by John Leider\n* Relea
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CustomMenu.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CustomMenu.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.site-title{\n    font-family: 'Raleway', sans-serif;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CustomersCreate.vue?vue&type=style&index=0&lang=css&":
 /*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CustomersCreate.vue?vue&type=style&index=0&lang=css& ***!
@@ -8947,7 +9103,26 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.page__wr[data-v-b3c5cf30]{\n    padding: 20px 10px;\n    height: calc(100vh - 100px);\n    background: url('http://cdn.backgroundhost.com/backgrounds/subtlepatterns/purty_wood.png');\n}\n.page-title[data-v-b3c5cf30]{\n    text-align: center;\n}\n.order-cards__wr[data-v-b3c5cf30]{\n    display: flex;\n    flex-wrap: wrap;\n}\n.single-card[data-v-b3c5cf30]{\n    border: 3px solid black;\n    border-radius: 3px;\n    display: flex;\n    flex-direction: column;\n    padding: 10px;\n    margin: 10px;\n    background: white;\n}\n.card-item__title-first[data-v-b3c5cf30]{\n    font-weight: 900;\n    font-size: 22px;\n    text-align: center;\n    color: #4D81C4;\n}\n.card-item__title-second[data-v-b3c5cf30]{\n    font-weight: 700;\n    font-size: 18px;\n    text-align: center;\n    color: #3C6498;\n}\n.card-item__title-fourth[data-v-b3c5cf30]{\n    font-weight: 700;\n    font-size: 18px;\n    text-align: center;\n    color: #6C6C6C;\n}\n.card-item__title-third[data-v-b3c5cf30]{\n    font-weight: 500;\n    font-size: 16px;\n    text-align: left;\n}\n", ""]);
+exports.push([module.i, "\n.page__wr[data-v-b3c5cf30]{\n    padding: 20px 10px;\n    height: calc(100vh - 50px);\n    background: url('http://cdn.backgroundhost.com/backgrounds/subtlepatterns/purty_wood.png');\n}\n.page-title[data-v-b3c5cf30]{\n    font-family: 'Pattaya', sans-serif;\n    text-align: center;\n    color: #525252;\n    font-size: 40px;\n}\n.order-cards__wr[data-v-b3c5cf30]{\n    display: flex;\n    flex-wrap: wrap;\n}\n.single-card[data-v-b3c5cf30]{\n    border: 3px solid black;\n    border-radius: 3px;\n    display: flex;\n    flex-direction: column;\n    padding: 10px;\n    margin: 10px;\n    background: white;\n}\n.card-item__title-first[data-v-b3c5cf30]{\n    font-weight: 900;\n    font-size: 22px;\n    text-align: center;\n    color: #4D81C4;\n}\n.card-item__title-second[data-v-b3c5cf30]{\n    font-weight: 700;\n    font-size: 18px;\n    text-align: center;\n    color: #3C6498;\n}\n.card-item__title-fourth[data-v-b3c5cf30]{\n    font-weight: 700;\n    font-size: 18px;\n    text-align: center;\n    color: #6C6C6C;\n}\n.card-item__title-third[data-v-b3c5cf30]{\n    font-weight: 500;\n    font-size: 16px;\n    text-align: left;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Orders.vue?vue&type=style&index=0&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Orders.vue?vue&type=style&index=0&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.users{\n    background-image: url(\"https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2560x1707/716c102132015fb68fe182f751188b8e/photo-1551291420-91160f3d4961\");\n    background-size: cover;\n    min-height: calc(100vh);\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n}\n.col-canban{\n    background-color: rgba(58, 0, 174, 0.2);\n    border: 1px groove rgba(66, 66, 66, 0.9);\n    border-radius: 5px;\n    /* margin: 0 5px; */\n    padding: 0;\n    min-height: 200px;\n    margin: 2px 10px;\n    flex: 0 0 18%;\n    max-width: 18%;\n}\n.col-canban__title{\n    text-align: center;\n    border-bottom: 1px groove rgba(66, 66, 66, 0.9);\n    background-color: rgba(58, 0, 174, 0.3);\n}\n.col-canban__title > h3{\n    font-family: 'Pattaya', sans-serif!important;\n    color: white;\n    width: 100%;\n    min-height: 50px;\n}\n.card-canban{\n    padding: 2px!important;\n}\n.canban__wr{\n    padding: 10px;\n    justify-content: center;\n    align-items: flex-start;\n}\n.primary-button-options:hover{\n    text-decoration: none;\n}\n.card-decor{\n    border-radius: 0!important;\n    margin: 10px 10px;\n}\n.canban-content{\n    display: flex;\n    flex-direction: column;\n}\n.item__title-first{\n    font-weight: 700;\n}\n.item__title-second{\n    font-size: 16px;\n}\n.item__title-third{\n    color: #929292;\n}\n.actions__wr{\n    padding: 0!important;\n    display: flex;\n    flex-direction: row;\n    justify-content: flex-end;\n}\n", ""]);
 
 // exports
 
@@ -42030,6 +42205,36 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**!
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CustomMenu.vue?vue&type=style&index=0&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CustomMenu.vue?vue&type=style&index=0&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./CustomMenu.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CustomMenu.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CustomersCreate.vue?vue&type=style&index=0&lang=css&":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CustomersCreate.vue?vue&type=style&index=0&lang=css& ***!
@@ -42189,6 +42394,36 @@ if(false) {}
 
 
 var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Home.vue?vue&type=style&index=0&id=b3c5cf30&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Home.vue?vue&type=style&index=0&id=b3c5cf30&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Orders.vue?vue&type=style&index=0&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/Orders.vue?vue&type=style&index=0&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Orders.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Orders.vue?vue&type=style&index=0&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -42813,17 +43048,32 @@ var render = function() {
     "div",
     [
       _c(
-        "v-btn",
-        {
-          attrs: { outline: "", small: "", fab: "", color: "teal" },
-          on: {
-            click: function($event) {
-              $event.stopPropagation()
-              _vm.drawer = !_vm.drawer
-            }
-          }
-        },
-        [_c("v-icon", [_vm._v("list")])],
+        "div",
+        [
+          _c(
+            "v-toolbar",
+            { attrs: { color: "deep-purple darken-3", dark: "", tabs: "" } },
+            [
+              _c("v-toolbar-side-icon", {
+                on: {
+                  click: function($event) {
+                    $event.stopPropagation()
+                    _vm.drawer = !_vm.drawer
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c("v-toolbar-title", { staticClass: "site-title" }, [
+                _vm._v("WoodLuck CRM")
+              ]),
+              _vm._v(" "),
+              _c("v-spacer")
+            ],
+            1
+          )
+        ],
         1
       ),
       _vm._v(" "),
@@ -45509,116 +45759,132 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "page__wr" }, [
-    _vm.loading
-      ? _c("div", { staticClass: "loading" }, [_c("loader")], 1)
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.error
-      ? _c("div", { staticClass: "error" }, [
-          _vm._v("\n        " + _vm._s(_vm.error) + "\n    ")
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _c("h3", { staticClass: "page-title" }, [_vm._v("Замовлення в роботi")]),
-    _vm._v(" "),
-    _vm.orders
-      ? _c(
-          "section",
-          { staticClass: "order-cards__wr" },
-          _vm._l(_vm.orders, function(order) {
-            return _c(
-              "div",
-              { key: order.id, staticClass: "single-card" },
-              [
-                order.id.toString().length === 1
-                  ? _c("span", { staticClass: "card-item__title-first" }, [
-                      _vm._v("Замовлення № 000" + _vm._s(order.id))
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                order.id.toString().length === 2
-                  ? _c("span", { staticClass: "card-item__title-first" }, [
-                      _vm._v("Замовлення № 00" + _vm._s(order.id))
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                order.id.toString().length === 3
-                  ? _c("span", { staticClass: "card-item__title-first" }, [
-                      _vm._v("Замовлення № 0" + _vm._s(order.id))
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm._l(_vm.customers, function(customer) {
-                  return _c(
-                    "span",
-                    {
-                      key: customer.id,
-                      staticClass: "card-item__title-second"
-                    },
-                    [
-                      order.customer_id === customer.id
-                        ? _c("span", [
-                            _vm._v(
-                              "\n                    Замовник: " +
-                                _vm._s(customer.name) +
-                                " " +
-                                _vm._s(customer.surname)
-                            )
-                          ])
-                        : _vm._e()
-                    ]
-                  )
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "card-item__title-fourth" }, [
-                  _vm._v(_vm._s(order.description))
-                ]),
-                _vm._v(" "),
-                _c("span", { staticClass: "card-item__title-second" }, [
-                  _vm._v("Перелiк матерiалiв:")
-                ]),
-                _vm._v(" "),
-                _vm._l(order.material_id, function(material) {
-                  return _c(
-                    "span",
-                    {
-                      key: material.count,
-                      staticClass: "card-item__title-third"
-                    },
-                    [
-                      material.name !== null
-                        ? _c(
-                            "span",
-                            { staticClass: "card-item__title-fourth" },
-                            [_vm._v(_vm._s(material.name.name) + " - ")]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      material.name !== null
-                        ? _c(
-                            "span",
-                            { staticClass: "card-item__title-fourth" },
-                            [
+  return _c(
+    "div",
+    { staticClass: "page__wr" },
+    [
+      _vm.loading
+        ? _c("div", { staticClass: "loading" }, [_c("loader")], 1)
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.error
+        ? _c(
+            "v-alert",
+            {
+              staticClass: "alert-active",
+              attrs: {
+                value: true,
+                color: "success",
+                icon: "notifications_active"
+              }
+            },
+            [_vm._v("\n        " + _vm._s(_vm.error) + "\n    ")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c("h3", { staticClass: "page-title" }, [_vm._v("Замовлення в роботi")]),
+      _vm._v(" "),
+      _vm.orders
+        ? _c(
+            "section",
+            { staticClass: "order-cards__wr" },
+            _vm._l(_vm.orders, function(order) {
+              return _c(
+                "div",
+                { key: order.id, staticClass: "single-card" },
+                [
+                  order.id.toString().length === 1
+                    ? _c("span", { staticClass: "card-item__title-first" }, [
+                        _vm._v("Замовлення № 000" + _vm._s(order.id))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  order.id.toString().length === 2
+                    ? _c("span", { staticClass: "card-item__title-first" }, [
+                        _vm._v("Замовлення № 00" + _vm._s(order.id))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  order.id.toString().length === 3
+                    ? _c("span", { staticClass: "card-item__title-first" }, [
+                        _vm._v("Замовлення № 0" + _vm._s(order.id))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm._l(_vm.customers, function(customer) {
+                    return _c(
+                      "span",
+                      {
+                        key: customer.id,
+                        staticClass: "card-item__title-second"
+                      },
+                      [
+                        order.customer_id === customer.id
+                          ? _c("span", [
                               _vm._v(
-                                _vm._s(material.count) +
+                                "\n                    Замовник: " +
+                                  _vm._s(customer.name) +
                                   " " +
-                                  _vm._s(material.name.mire_id)
+                                  _vm._s(customer.surname)
                               )
-                            ]
-                          )
-                        : _vm._e()
-                    ]
-                  )
-                })
-              ],
-              2
-            )
-          }),
-          0
-        )
-      : _c("section", [_vm._v("\n        Замовлення у роботi вiдсутнi\n    ")])
-  ])
+                            ])
+                          : _vm._e()
+                      ]
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "card-item__title-fourth" }, [
+                    _vm._v(_vm._s(order.description))
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "card-item__title-second" }, [
+                    _vm._v("Перелiк матерiалiв:")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(order.material_id, function(material) {
+                    return _c(
+                      "span",
+                      {
+                        key: material.count,
+                        staticClass: "card-item__title-third"
+                      },
+                      [
+                        material.name !== null
+                          ? _c(
+                              "span",
+                              { staticClass: "card-item__title-fourth" },
+                              [_vm._v(_vm._s(material.name.name) + " - ")]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        material.name !== null
+                          ? _c(
+                              "span",
+                              { staticClass: "card-item__title-fourth" },
+                              [
+                                _vm._v(
+                                  _vm._s(material.count) +
+                                    " " +
+                                    _vm._s(material.name.mire_id)
+                                )
+                              ]
+                            )
+                          : _vm._e()
+                      ]
+                    )
+                  })
+                ],
+                2
+              )
+            }),
+            0
+          )
+        : _c("section", [
+            _vm._v("\n        Замовлення у роботi вiдсутнi\n    ")
+          ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -45679,528 +45945,1090 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "users" },
-    [
-      _vm.loading
-        ? _c("div", { staticClass: "loading" }, [_c("loader")], 1)
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.error
-        ? _c("div", { staticClass: "error" }, [
-            _vm._v("\n            " + _vm._s(_vm.error) + "\n        ")
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "router-link",
-        {
-          staticClass: "primary-button-options",
-          attrs: { to: { name: "orders.create" } }
-        },
-        [
+  return _c("v-app", [
+    _c(
+      "div",
+      { staticClass: "users" },
+      [
+        _vm.loading
+          ? _c("div", { staticClass: "loading" }, [_c("loader")], 1)
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "v-dialog",
+          {
+            attrs: { "max-width": "290" },
+            model: {
+              value: _vm.dialog,
+              callback: function($$v) {
+                _vm.dialog = $$v
+              },
+              expression: "dialog"
+            }
+          },
+          [
+            _c(
+              "v-card",
+              [
+                _c("v-card-title", { staticClass: "headline" }, [
+                  _vm._v("Видалити замовлення?")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "v-card-actions",
+                  [
+                    _c("v-spacer"),
+                    _vm._v(" "),
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: { color: "green darken-1", flat: "flat" },
+                        on: {
+                          click: function($event) {
+                            return _vm.dropDialog()
+                          }
+                        }
+                      },
+                      [_vm._v("\n                Нi\n            ")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: { color: "green darken-1", flat: "flat" },
+                        on: {
+                          click: function($event) {
+                            return _vm.onDelete(_vm.dialog_id)
+                          }
+                        }
+                      },
+                      [_vm._v("\n                Так\n            ")]
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _vm.error
+          ? _c(
+              "v-alert",
+              {
+                staticClass: "alert-active",
+                attrs: {
+                  value: true,
+                  color: "success",
+                  icon: "notifications_active"
+                }
+              },
+              [_vm._v("\n            " + _vm._s(_vm.error) + "\n        ")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "router-link",
+          {
+            staticClass: "primary-button-options",
+            attrs: { to: { name: "orders.create" } }
+          },
+          [
+            _c(
+              "v-btn",
+              { attrs: { icon: "", flat: "", color: "white" } },
+              [
+                _c("v-icon", { attrs: { size: "50px", right: "", dark: "" } }, [
+                  _vm._v("add_circle_outline")
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("router-view"),
+        _vm._v(" "),
+        _c("v-layout", { staticClass: "canban__wr" }, [
           _c(
-            "v-btn",
-            { staticClass: "white--text", attrs: { color: "blue-grey" } },
+            "div",
+            { staticClass: "col-canban" },
             [
-              _vm._v("\n                Додати замовлення\n                "),
-              _c("v-icon", { attrs: { right: "", dark: "" } }, [
-                _vm._v("add_circle_outline")
-              ])
+              _c(
+                "v-card-title",
+                {
+                  staticClass: "col-canban__title",
+                  attrs: { "primary-title": "" }
+                },
+                [
+                  _c("h3", { staticClass: "title mb-0" }, [
+                    _vm._v("Перший контакт")
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "draggable",
+                {
+                  attrs: {
+                    list: _vm.canban_first_column,
+                    options: { animation: 200, group: "canban_column" },
+                    element: "div"
+                  },
+                  on: {
+                    add: function($event) {
+                      return _vm.updateCanbanColumn($event, 1)
+                    },
+                    update: function($event) {
+                      return _vm.updateCanbanStatusFirstColumn()
+                    }
+                  }
+                },
+                _vm._l(_vm.canban_first_column, function(order) {
+                  return _c(
+                    "v-card",
+                    {
+                      key: order.id,
+                      staticClass: "black--text card-decor",
+                      attrs: { color: "darken-2", "data-id": order.id }
+                    },
+                    [
+                      _c(
+                        "v-card-title",
+                        {
+                          staticClass: "card-canban",
+                          attrs: { "primary-title": "" }
+                        },
+                        [
+                          order
+                            ? _c(
+                                "div",
+                                { staticClass: "canban-content" },
+                                [
+                                  order.id.toString().length === 1
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 000" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.id.toString().length === 2
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 00" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.id.toString().length === 3
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 0" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.customers, function(customer) {
+                                    return _c(
+                                      "span",
+                                      {
+                                        key: customer.id,
+                                        staticClass: "item__title-second"
+                                      },
+                                      [
+                                        order.customer_id === customer.id
+                                          ? _c("span", [
+                                              _vm._v(
+                                                "\n                                        " +
+                                                  _vm._s(customer.name) +
+                                                  " " +
+                                                  _vm._s(customer.surname)
+                                              )
+                                            ])
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  }),
+                                  _vm._v(" "),
+                                  order.price
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.price) + " грн")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.text_execution
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("Задача:")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.text_execution
+                                    ? _c("span", [
+                                        _vm._v(_vm._s(order.text_execution))
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.date_execution
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.date_execution))]
+                                      )
+                                    : _vm._e()
+                                ],
+                                2
+                              )
+                            : _vm._e()
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        { staticClass: "actions__wr" },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "primary-button-options",
+                              attrs: {
+                                to: { path: "orders/" + order.id + "/edit" }
+                              }
+                            },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { flat: "", icon: "", color: "pink" }
+                                },
+                                [
+                                  _c("v-icon", { attrs: { size: "15px" } }, [
+                                    _vm._v("border_color")
+                                  ])
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { flat: "", icon: "", color: "pink" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showDialog(order.id)
+                                }
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { size: "15px" } }, [
+                                _vm._v("delete")
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col-canban" },
+            [
+              _c(
+                "v-card-title",
+                {
+                  staticClass: "col-canban__title",
+                  attrs: { "primary-title": "" }
+                },
+                [
+                  _c("h3", { staticClass: "title" }, [
+                    _vm._v("Вислано комерцiйну пропозицiю")
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "draggable",
+                {
+                  attrs: {
+                    list: _vm.canban_second_column,
+                    options: { animation: 200, group: "canban_column" },
+                    element: "div"
+                  },
+                  on: {
+                    add: function($event) {
+                      return _vm.updateCanbanColumn($event, 2)
+                    },
+                    update: function($event) {
+                      return _vm.updateCanbanStatusSecondColumn()
+                    }
+                  }
+                },
+                _vm._l(_vm.canban_second_column, function(order) {
+                  return _c(
+                    "v-card",
+                    {
+                      key: order.id,
+                      staticClass: "black--text card-decor",
+                      attrs: { color: "darken-2", "data-id": order.id }
+                    },
+                    [
+                      _c(
+                        "v-card-title",
+                        {
+                          staticClass: "card-canban",
+                          attrs: { "primary-title": "" }
+                        },
+                        [
+                          order
+                            ? _c(
+                                "div",
+                                { staticClass: "canban-content" },
+                                [
+                                  order.id.toString().length === 1
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 000" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.id.toString().length === 2
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 00" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.id.toString().length === 3
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 0" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.customers, function(customer) {
+                                    return _c(
+                                      "span",
+                                      {
+                                        key: customer.id,
+                                        staticClass: "item__title-second"
+                                      },
+                                      [
+                                        order.customer_id === customer.id
+                                          ? _c("span", [
+                                              _vm._v(
+                                                "\n                                    " +
+                                                  _vm._s(customer.name) +
+                                                  " " +
+                                                  _vm._s(customer.surname)
+                                              )
+                                            ])
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  }),
+                                  _vm._v(" "),
+                                  order.price
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.price) + " грн")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.text_execution
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("Задача:")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.text_execution
+                                    ? _c("span", [
+                                        _vm._v(_vm._s(order.text_execution))
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.date_execution
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.date_execution))]
+                                      )
+                                    : _vm._e()
+                                ],
+                                2
+                              )
+                            : _vm._e()
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        { staticClass: "actions__wr" },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "primary-button-options",
+                              attrs: {
+                                to: { path: "orders/" + order.id + "/edit" }
+                              }
+                            },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { flat: "", icon: "", color: "pink" }
+                                },
+                                [
+                                  _c("v-icon", { attrs: { size: "15px" } }, [
+                                    _vm._v("border_color")
+                                  ])
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { flat: "", icon: "", color: "pink" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showDialog(order.id)
+                                }
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { size: "15px" } }, [
+                                _vm._v("delete")
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col-canban" },
+            [
+              _c(
+                "v-card-title",
+                {
+                  staticClass: "col-canban__title",
+                  attrs: { "primary-title": "" }
+                },
+                [
+                  _c("h3", { staticClass: "title" }, [
+                    _vm._v("Передоплату отримано")
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "draggable",
+                {
+                  attrs: {
+                    list: _vm.canban_third_column,
+                    options: { animation: 200, group: "canban_column" },
+                    element: "div"
+                  },
+                  on: {
+                    add: function($event) {
+                      return _vm.updateCanbanColumn($event, 3)
+                    },
+                    update: function($event) {
+                      return _vm.updateCanbanStatusThirdColumn()
+                    }
+                  }
+                },
+                _vm._l(_vm.canban_third_column, function(order) {
+                  return _c(
+                    "v-card",
+                    {
+                      key: order.id,
+                      staticClass: "black--text card-decor",
+                      attrs: { color: "darken-2", "data-id": order.id }
+                    },
+                    [
+                      _c(
+                        "v-card-title",
+                        {
+                          staticClass: "card-canban",
+                          attrs: { "primary-title": "" }
+                        },
+                        [
+                          order
+                            ? _c(
+                                "div",
+                                { staticClass: "canban-content" },
+                                [
+                                  order.id.toString().length === 1
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 000" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.id.toString().length === 2
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 00" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.id.toString().length === 3
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 0" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.customers, function(customer) {
+                                    return _c(
+                                      "span",
+                                      {
+                                        key: customer.id,
+                                        staticClass: "item__title-second"
+                                      },
+                                      [
+                                        order.customer_id === customer.id
+                                          ? _c("span", [
+                                              _vm._v(
+                                                "\n                                    " +
+                                                  _vm._s(customer.name) +
+                                                  " " +
+                                                  _vm._s(customer.surname)
+                                              )
+                                            ])
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  }),
+                                  _vm._v(" "),
+                                  order.price
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.price) + " грн")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.text_execution
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("Задача:")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.text_execution
+                                    ? _c("span", [
+                                        _vm._v(_vm._s(order.text_execution))
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.date_execution
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.date_execution))]
+                                      )
+                                    : _vm._e()
+                                ],
+                                2
+                              )
+                            : _vm._e()
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        { staticClass: "actions__wr" },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "primary-button-options",
+                              attrs: {
+                                to: { path: "orders/" + order.id + "/edit" }
+                              }
+                            },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { flat: "", icon: "", color: "pink" }
+                                },
+                                [
+                                  _c("v-icon", { attrs: { size: "15px" } }, [
+                                    _vm._v("border_color")
+                                  ])
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { flat: "", icon: "", color: "pink" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showDialog(order.id)
+                                }
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { size: "15px" } }, [
+                                _vm._v("delete")
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col-canban" },
+            [
+              _c(
+                "v-card-title",
+                {
+                  staticClass: "col-canban__title",
+                  attrs: { "primary-title": "" }
+                },
+                [_c("h3", { staticClass: "title" }, [_vm._v("У роботi")])]
+              ),
+              _vm._v(" "),
+              _c(
+                "draggable",
+                {
+                  attrs: {
+                    list: _vm.canban_fourth_column,
+                    options: { animation: 200, group: "canban_column" },
+                    element: "div"
+                  },
+                  on: {
+                    add: function($event) {
+                      return _vm.updateCanbanColumn($event, 4)
+                    },
+                    update: function($event) {
+                      return _vm.updateCanbanStatusFourthColumn()
+                    }
+                  }
+                },
+                _vm._l(_vm.canban_fourth_column, function(order) {
+                  return _c(
+                    "v-card",
+                    {
+                      key: order.id,
+                      staticClass: "black--text card-decor",
+                      attrs: { color: "darken-2", "data-id": order.id }
+                    },
+                    [
+                      _c(
+                        "v-card-title",
+                        {
+                          staticClass: "card-canban",
+                          attrs: { "primary-title": "" }
+                        },
+                        [
+                          order
+                            ? _c(
+                                "div",
+                                { staticClass: "canban-content" },
+                                [
+                                  order.id.toString().length === 1
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 000" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.id.toString().length === 2
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 00" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.id.toString().length === 3
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 0" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.customers, function(customer) {
+                                    return _c(
+                                      "span",
+                                      {
+                                        key: customer.id,
+                                        staticClass: "item__title-second"
+                                      },
+                                      [
+                                        order.customer_id === customer.id
+                                          ? _c("span", [
+                                              _vm._v(
+                                                "\n                                    " +
+                                                  _vm._s(customer.name) +
+                                                  " " +
+                                                  _vm._s(customer.surname)
+                                              )
+                                            ])
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  }),
+                                  _vm._v(" "),
+                                  order.price
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.price) + " грн")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.text_execution
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("Задача:")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.text_execution
+                                    ? _c("span", [
+                                        _vm._v(_vm._s(order.text_execution))
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.date_execution
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.date_execution))]
+                                      )
+                                    : _vm._e()
+                                ],
+                                2
+                              )
+                            : _vm._e()
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        { staticClass: "actions__wr" },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "primary-button-options",
+                              attrs: {
+                                to: { path: "orders/" + order.id + "/edit" }
+                              }
+                            },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { flat: "", icon: "", color: "pink" }
+                                },
+                                [
+                                  _c("v-icon", { attrs: { size: "15px" } }, [
+                                    _vm._v("border_color")
+                                  ])
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { flat: "", icon: "", color: "pink" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showDialog(order.id)
+                                }
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { size: "15px" } }, [
+                                _vm._v("delete")
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col-canban" },
+            [
+              _c(
+                "v-card-title",
+                {
+                  staticClass: "col-canban__title",
+                  attrs: { "primary-title": "" }
+                },
+                [_c("h3", { staticClass: "title mb-0" }, [_vm._v("Сдано")])]
+              ),
+              _vm._v(" "),
+              _c(
+                "draggable",
+                {
+                  attrs: {
+                    list: _vm.canban_fiveth_column,
+                    options: { animation: 200, group: "canban_column" },
+                    element: "div"
+                  },
+                  on: {
+                    add: function($event) {
+                      return _vm.updateCanbanColumn($event, 5)
+                    },
+                    update: function($event) {
+                      return _vm.updateCanbanStatusFivethColumn()
+                    }
+                  }
+                },
+                _vm._l(_vm.canban_fiveth_column, function(order) {
+                  return _c(
+                    "v-card",
+                    {
+                      key: order.id,
+                      staticClass: "black--text card-decor",
+                      attrs: { color: "darken-2", "data-id": order.id }
+                    },
+                    [
+                      _c(
+                        "v-card-title",
+                        {
+                          staticClass: "card-canban",
+                          attrs: { "primary-title": "" }
+                        },
+                        [
+                          order
+                            ? _c(
+                                "div",
+                                { staticClass: "canban-content" },
+                                [
+                                  order.id.toString().length === 1
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 000" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.id.toString().length === 2
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 00" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.id.toString().length === 3
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("№ 0" + _vm._s(order.id))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.customers, function(customer) {
+                                    return _c(
+                                      "span",
+                                      {
+                                        key: customer.id,
+                                        staticClass: "item__title-second"
+                                      },
+                                      [
+                                        order.customer_id === customer.id
+                                          ? _c("span", [
+                                              _vm._v(
+                                                "\n                                    " +
+                                                  _vm._s(customer.name) +
+                                                  " " +
+                                                  _vm._s(customer.surname)
+                                              )
+                                            ])
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  }),
+                                  _vm._v(" "),
+                                  order.price
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.price) + " грн")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.text_execution
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("Задача:")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.text_execution
+                                    ? _c("span", [
+                                        _vm._v(_vm._s(order.text_execution))
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.date_execution
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.date_execution))]
+                                      )
+                                    : _vm._e()
+                                ],
+                                2
+                              )
+                            : _vm._e()
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        { staticClass: "actions__wr" },
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "primary-button-options",
+                              attrs: {
+                                to: { path: "orders/" + order.id + "/edit" }
+                              }
+                            },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { flat: "", icon: "", color: "pink" }
+                                },
+                                [
+                                  _c("v-icon", { attrs: { size: "15px" } }, [
+                                    _vm._v("border_color")
+                                  ])
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { flat: "", icon: "", color: "pink" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.showDialog(order.id)
+                                }
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { size: "15px" } }, [
+                                _vm._v("delete")
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              )
             ],
             1
           )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("router-view"),
-      _vm._v(" "),
-      _c("v-layout", { staticClass: "canban__wr" }, [
-        _c(
-          "div",
-          { staticClass: "col-canban" },
-          [
-            _c(
-              "v-card-title",
-              {
-                staticClass: "col-canban__title",
-                attrs: { "primary-title": "" }
-              },
-              [
-                _c("h3", { staticClass: "title mb-0" }, [
-                  _vm._v("Перший контакт")
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "draggable",
-              {
-                attrs: {
-                  list: _vm.canban_first_column,
-                  options: { animation: 200, group: "canban_column" },
-                  element: "div"
-                },
-                on: {
-                  add: function($event) {
-                    return _vm.updateCanbanColumn($event, 1)
-                  },
-                  update: function($event) {
-                    return _vm.updateCanbanStatusFirstColumn()
-                  }
-                }
-              },
-              _vm._l(_vm.canban_first_column, function(order) {
-                return _c(
-                  "v-card",
-                  {
-                    key: order.id,
-                    staticClass: "black--text card-decor",
-                    attrs: { color: "darken-2", "data-id": order.id }
-                  },
-                  [
-                    _c(
-                      "v-card-title",
-                      {
-                        staticClass: "card-canban",
-                        attrs: { "primary-title": "" }
-                      },
-                      [
-                        _c("div", [
-                          _c("div", { staticClass: "headline" }, [
-                            _vm._v(_vm._s(order.id))
-                          ]),
-                          _vm._v(" "),
-                          _c("span", [_vm._v(_vm._s(order.description))])
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-actions",
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "primary-button-options",
-                            attrs: {
-                              to: { path: "orders/" + order.id + "/edit" }
-                            }
-                          },
-                          [
-                            _c(
-                              "v-btn",
-                              { attrs: { flat: "", icon: "", color: "pink" } },
-                              [
-                                _c("v-icon", { attrs: { size: "19px" } }, [
-                                  _vm._v("border_color")
-                                ])
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              }),
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "col-canban" },
-          [
-            _c(
-              "v-card-title",
-              {
-                staticClass: "col-canban__title",
-                attrs: { "primary-title": "" }
-              },
-              [
-                _c("h3", { staticClass: "title" }, [
-                  _vm._v("Вислано комерцiйну пропозицiю")
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "draggable",
-              {
-                attrs: {
-                  list: _vm.canban_second_column,
-                  options: { animation: 200, group: "canban_column" },
-                  element: "div"
-                },
-                on: {
-                  add: function($event) {
-                    return _vm.updateCanbanColumn($event, 2)
-                  },
-                  update: function($event) {
-                    return _vm.updateCanbanStatusSecondColumn()
-                  }
-                }
-              },
-              _vm._l(_vm.canban_second_column, function(order) {
-                return _c(
-                  "v-card",
-                  {
-                    key: order.id,
-                    staticClass: "black--text card-decor",
-                    attrs: { color: "darken-2", "data-id": order.id }
-                  },
-                  [
-                    _c(
-                      "v-card-title",
-                      {
-                        staticClass: "card-canban",
-                        attrs: { "primary-title": "" }
-                      },
-                      [
-                        _c("div", [
-                          _c("div", { staticClass: "headline" }, [
-                            _vm._v(_vm._s(order.id))
-                          ]),
-                          _vm._v(" "),
-                          _c("span", [_vm._v(_vm._s(order.description))])
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-actions",
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "primary-button-options",
-                            attrs: {
-                              to: { path: "orders/" + order.id + "/edit" }
-                            }
-                          },
-                          [
-                            _c(
-                              "v-btn",
-                              { attrs: { flat: "", icon: "", color: "pink" } },
-                              [
-                                _c("v-icon", { attrs: { size: "19px" } }, [
-                                  _vm._v("border_color")
-                                ])
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              }),
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "col-canban" },
-          [
-            _c(
-              "v-card-title",
-              {
-                staticClass: "col-canban__title",
-                attrs: { "primary-title": "" }
-              },
-              [
-                _c("h3", { staticClass: "title" }, [
-                  _vm._v("Передоплату отримано")
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "draggable",
-              {
-                attrs: {
-                  list: _vm.canban_third_column,
-                  options: { animation: 200, group: "canban_column" },
-                  element: "div"
-                },
-                on: {
-                  add: function($event) {
-                    return _vm.updateCanbanColumn($event, 3)
-                  },
-                  update: function($event) {
-                    return _vm.updateCanbanStatusThirdColumn()
-                  }
-                }
-              },
-              _vm._l(_vm.canban_third_column, function(order) {
-                return _c(
-                  "v-card",
-                  {
-                    key: order.id,
-                    staticClass: "black--text card-decor",
-                    attrs: { color: "darken-2", "data-id": order.id }
-                  },
-                  [
-                    _c(
-                      "v-card-title",
-                      {
-                        staticClass: "card-canban",
-                        attrs: { "primary-title": "" }
-                      },
-                      [
-                        _c("div", [
-                          _c("div", { staticClass: "headline" }, [
-                            _vm._v(_vm._s(order.id))
-                          ]),
-                          _vm._v(" "),
-                          _c("span", [_vm._v(_vm._s(order.description))])
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-actions",
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "primary-button-options",
-                            attrs: {
-                              to: { path: "orders/" + order.id + "/edit" }
-                            }
-                          },
-                          [
-                            _c(
-                              "v-btn",
-                              { attrs: { flat: "", icon: "", color: "pink" } },
-                              [
-                                _c("v-icon", { attrs: { size: "19px" } }, [
-                                  _vm._v("border_color")
-                                ])
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              }),
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "col-canban" },
-          [
-            _c(
-              "v-card-title",
-              {
-                staticClass: "col-canban__title",
-                attrs: { "primary-title": "" }
-              },
-              [_c("h3", { staticClass: "title" }, [_vm._v("У роботi")])]
-            ),
-            _vm._v(" "),
-            _c(
-              "draggable",
-              {
-                attrs: {
-                  list: _vm.canban_fourth_column,
-                  options: { animation: 200, group: "canban_column" },
-                  element: "div"
-                },
-                on: {
-                  add: function($event) {
-                    return _vm.updateCanbanColumn($event, 4)
-                  },
-                  update: function($event) {
-                    return _vm.updateCanbanStatusFourthColumn()
-                  }
-                }
-              },
-              _vm._l(_vm.canban_fourth_column, function(order) {
-                return _c(
-                  "v-card",
-                  {
-                    key: order.id,
-                    staticClass: "black--text card-decor",
-                    attrs: { color: "darken-2", "data-id": order.id }
-                  },
-                  [
-                    _c(
-                      "v-card-title",
-                      {
-                        staticClass: "card-canban",
-                        attrs: { "primary-title": "" }
-                      },
-                      [
-                        _c("div", [
-                          _c("div", { staticClass: "headline" }, [
-                            _vm._v(_vm._s(order.id))
-                          ]),
-                          _vm._v(" "),
-                          _c("span", [_vm._v(_vm._s(order.description))])
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-actions",
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            attrs: {
-                              to: { path: "orders/" + order.id + "/edit" }
-                            }
-                          },
-                          [
-                            _c(
-                              "v-btn",
-                              { attrs: { flat: "", icon: "", color: "pink" } },
-                              [
-                                _c("v-icon", { attrs: { size: "19px" } }, [
-                                  _vm._v("border_color")
-                                ])
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              }),
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "col-canban" },
-          [
-            _c(
-              "v-card-title",
-              {
-                staticClass: "col-canban__title",
-                attrs: { "primary-title": "" }
-              },
-              [_c("h3", { staticClass: "title mb-0" }, [_vm._v("Сдано")])]
-            ),
-            _vm._v(" "),
-            _c(
-              "draggable",
-              {
-                attrs: {
-                  list: _vm.canban_fiveth_column,
-                  options: { animation: 200, group: "canban_column" },
-                  element: "div"
-                },
-                on: {
-                  add: function($event) {
-                    return _vm.updateCanbanColumn($event, 5)
-                  },
-                  update: function($event) {
-                    return _vm.updateCanbanStatusFivethColumn()
-                  }
-                }
-              },
-              _vm._l(_vm.canban_fiveth_column, function(order) {
-                return _c(
-                  "v-card",
-                  {
-                    key: order.id,
-                    staticClass: "black--text card-decor",
-                    attrs: { color: "darken-2", "data-id": order.id }
-                  },
-                  [
-                    _c(
-                      "v-card-title",
-                      {
-                        staticClass: "card-canban",
-                        attrs: { "primary-title": "" }
-                      },
-                      [
-                        _c("div", [
-                          _c("div", { staticClass: "headline" }, [
-                            _vm._v(_vm._s(order.id))
-                          ]),
-                          _vm._v(" "),
-                          _c("span", [_vm._v(_vm._s(order.description))])
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-actions",
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            attrs: {
-                              to: { path: "orders/" + order.id + "/edit" }
-                            }
-                          },
-                          [
-                            _c(
-                              "v-btn",
-                              { attrs: { flat: "", icon: "", color: "pink" } },
-                              [
-                                _c("v-icon", { attrs: { size: "19px" } }, [
-                                  _vm._v("border_color")
-                                ])
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              }),
-              1
-            )
-          ],
-          1
-        )
-      ])
-    ],
-    1
-  )
+        ])
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -88013,7 +88841,9 @@ if (token) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CustomMenu_vue_vue_type_template_id_80e02dca___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomMenu.vue?vue&type=template&id=80e02dca& */ "./resources/js/components/CustomMenu.vue?vue&type=template&id=80e02dca&");
 /* harmony import */ var _CustomMenu_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CustomMenu.vue?vue&type=script&lang=js& */ "./resources/js/components/CustomMenu.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _CustomMenu_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CustomMenu.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/CustomMenu.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -88021,7 +88851,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _CustomMenu_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _CustomMenu_vue_vue_type_template_id_80e02dca___WEBPACK_IMPORTED_MODULE_0__["render"],
   _CustomMenu_vue_vue_type_template_id_80e02dca___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -88050,6 +88880,22 @@ component.options.__file = "resources/js/components/CustomMenu.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomMenu_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./CustomMenu.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CustomMenu.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomMenu_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/CustomMenu.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/CustomMenu.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomMenu_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./CustomMenu.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CustomMenu.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomMenu_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomMenu_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomMenu_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomMenu_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_CustomMenu_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -89209,7 +90055,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Orders_vue_vue_type_template_id_6a4689a4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Orders.vue?vue&type=template&id=6a4689a4& */ "./resources/js/pages/Orders.vue?vue&type=template&id=6a4689a4&");
 /* harmony import */ var _Orders_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Orders.vue?vue&type=script&lang=js& */ "./resources/js/pages/Orders.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _Orders_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Orders.vue?vue&type=style&index=0&lang=css& */ "./resources/js/pages/Orders.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -89217,7 +90065,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _Orders_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _Orders_vue_vue_type_template_id_6a4689a4___WEBPACK_IMPORTED_MODULE_0__["render"],
   _Orders_vue_vue_type_template_id_6a4689a4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -89246,6 +90094,22 @@ component.options.__file = "resources/js/pages/Orders.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Orders_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Orders.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Orders.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Orders_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/pages/Orders.vue?vue&type=style&index=0&lang=css&":
+/*!************************************************************************!*\
+  !*** ./resources/js/pages/Orders.vue?vue&type=style&index=0&lang=css& ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Orders_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Orders.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/Orders.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Orders_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Orders_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Orders_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Orders_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Orders_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

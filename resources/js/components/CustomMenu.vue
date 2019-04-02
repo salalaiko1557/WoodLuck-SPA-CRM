@@ -1,13 +1,18 @@
 <template>
   <div>
-    <v-btn
-    outline
-    small
-    fab
-    color="teal"
-    @click.stop="drawer = !drawer">
-        <v-icon>list</v-icon>
-    </v-btn>
+      <div>
+    <v-toolbar
+      color="deep-purple darken-3"
+      dark
+      tabs
+    >
+    <v-toolbar-side-icon @click.stop="drawer = !drawer" ></v-toolbar-side-icon>
+        <v-spacer></v-spacer>
+        <v-toolbar-title class="site-title">WoodLuck CRM</v-toolbar-title>
+        <v-spacer></v-spacer>
+    </v-toolbar>
+  </div>
+
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="mini"
@@ -76,3 +81,9 @@
     props:['username', 'menu'],
   }
 </script>
+<style>
+.site-title{
+    font-family: 'Raleway', sans-serif;
+}
+</style>
+

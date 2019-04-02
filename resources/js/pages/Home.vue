@@ -4,9 +4,15 @@
             <loader></loader>
         </div>
 
-        <div v-if="error" class="error">
-            {{ error }}
-        </div>
+        <v-alert
+            v-if="error"
+            :value="true"
+            color="success"
+            class="alert-active"
+            icon="notifications_active"
+        >
+            {{error}}
+        </v-alert>
         <h3 class="page-title">Замовлення в роботi</h3>
         <section v-if="orders" class="order-cards__wr">
             <div class="single-card" v-for="order in orders" :key="order.id">
@@ -80,11 +86,14 @@ export default {
 <style scoped>
 .page__wr{
     padding: 20px 10px;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 50px);
     background: url('http://cdn.backgroundhost.com/backgrounds/subtlepatterns/purty_wood.png');
 }
 .page-title{
+    font-family: 'Pattaya', sans-serif;
     text-align: center;
+    color: #525252;
+    font-size: 40px;
 }
 .order-cards__wr{
     display: flex;

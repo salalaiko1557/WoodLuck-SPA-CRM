@@ -18,3 +18,18 @@
 .menu-items > li > a{
     color: black
 }
+.exit-button{
+    width: 60px;
+    font-size: 16px;
+    position: absolute;
+    z-index: 5;
+    color: white;
+    right: 0;
+    top: 16px;
+}
+.dropdown-item:hover,
+.dropdown-item:focus {
+  color: #D1C4E9;
+  text-decoration: none;
+  background-color: #4527A0;
+}

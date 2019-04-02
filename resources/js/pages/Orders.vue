@@ -1,21 +1,49 @@
 <template>
-    <div class="users">
+    <v-app>
+      <div class="users">
         <div class="loading" v-if="loading">
             <loader></loader>
         </div>
 
-        <div v-if="error" class="error">
-            {{ error }}
-        </div>
-        <router-link class="primary-button-options" :to="{ name: 'orders.create' }">
-            <v-btn color="blue-grey" class="white--text">
-                Додати замовлення
-                <v-icon right dark>add_circle_outline</v-icon>
+        <v-dialog v-model="dialog" max-width="290">
+        <v-card>
+            <v-card-title class="headline">Видалити замовлення?</v-card-title>
+            <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+                color="green darken-1"
+                flat="flat"
+                @click="dropDialog()"
+            >
+                Нi
             </v-btn>
-        </router-link>
+            <v-btn
+                color="green darken-1"
+                flat="flat"
+                @click="onDelete(dialog_id)"
+            >
+                Так
+            </v-btn>
+            </v-card-actions>
+        </v-card>
+        </v-dialog>
+
+        <v-alert
+            v-if="error"
+            :value="true"
+            color="success"
+            class="alert-active"
+            icon="notifications_active"
+        >
+            {{error}}
+        </v-alert>
+            <router-link class="primary-button-options" :to="{ name: 'orders.create' }">
+                <v-btn icon flat color="white">
+                    <v-icon size="50px" right dark>add_circle_outline</v-icon>
+                </v-btn>
+            </router-link>
         <!-- SHOW MODAL WINDOW -->
             <router-view></router-view>
-
         <v-layout class="canban__wr">
 <!-- COLUMN 1     -->
             <div class="col-canban">
@@ -38,17 +66,29 @@
                     :data-id = "order.id"
                     >
                         <v-card-title primary-title class="card-canban">
-                            <div>
-                                <div class="headline">{{ order.id }}</div>
-                                <span>{{ order.description }}</span>
+                            <div class="canban-content" v-if="order">
+                                <span class="item__title-first" v-if="order.id.toString().length === 1">№ 000{{order.id}}</span>
+                                <span class="item__title-first" v-if="order.id.toString().length === 2">№ 00{{order.id}}</span>
+                                <span class="item__title-first" v-if="order.id.toString().length === 3">№ 0{{order.id}}</span>
+                                <span class="item__title-second" v-for="customer in customers" :key="customer.id">
+                                    <span v-if="order.customer_id === customer.id">
+                                        {{customer.name}} {{customer.surname}}</span>
+                                    </span>
+                                <span class="item__title-third" v-if="order.price">{{order.price}} грн</span>
+                                <span class="item__title-first" v-if="order.text_execution">Задача:</span>
+                                <span v-if="order.text_execution">{{order.text_execution}}</span>
+                                <span class="item__title-third" v-if="order.date_execution">{{order.date_execution}}</span>
                             </div>
                         </v-card-title>
-                        <v-card-actions>
+                        <v-card-actions class="actions__wr">
                             <router-link class="primary-button-options" :to="{ path: 'orders/'+ order.id +'/edit' }">
                                 <v-btn flat icon color="pink">
-                                    <v-icon size="19px">border_color</v-icon>
+                                    <v-icon size="15px">border_color</v-icon>
                                 </v-btn>
                             </router-link>
+                            <v-btn flat icon color="pink" @click="showDialog(order.id)">
+                                <v-icon size="15px">delete</v-icon>
+                            </v-btn>
                         </v-card-actions>
                     </v-card>
                 </draggable>
@@ -75,17 +115,29 @@
                     :data-id = "order.id"
                     >
                         <v-card-title primary-title class="card-canban">
-                            <div>
-                                <div class="headline">{{ order.id }}</div>
-                                <span>{{ order.description }}</span>
+                            <div class="canban-content" v-if="order">
+                                <span class="item__title-first" v-if="order.id.toString().length === 1">№ 000{{order.id}}</span>
+                                <span class="item__title-first" v-if="order.id.toString().length === 2">№ 00{{order.id}}</span>
+                                <span class="item__title-first" v-if="order.id.toString().length === 3">№ 0{{order.id}}</span>
+                                <span class="item__title-second" v-for="customer in customers" :key="customer.id">
+                                <span v-if="order.customer_id === customer.id">
+                                    {{customer.name}} {{customer.surname}}</span>
+                                </span>
+                                <span class="item__title-third" v-if="order.price">{{order.price}} грн</span>
+                                <span class="item__title-first" v-if="order.text_execution">Задача:</span>
+                                <span v-if="order.text_execution">{{order.text_execution}}</span>
+                                <span class="item__title-third" v-if="order.date_execution">{{order.date_execution}}</span>
                             </div>
                         </v-card-title>
-                        <v-card-actions>
+                        <v-card-actions class="actions__wr">
                             <router-link class="primary-button-options" :to="{ path: 'orders/'+ order.id +'/edit' }">
                                 <v-btn flat icon color="pink">
-                                    <v-icon size="19px">border_color</v-icon>
+                                    <v-icon size="15px">border_color</v-icon>
                                 </v-btn>
                             </router-link>
+                            <v-btn flat icon color="pink" @click="showDialog(order.id)">
+                                <v-icon size="15px">delete</v-icon>
+                            </v-btn>
                         </v-card-actions>
                     </v-card>
                 </draggable>
@@ -112,17 +164,29 @@
                     :data-id = "order.id"
                     >
                         <v-card-title primary-title class="card-canban">
-                            <div>
-                                <div class="headline">{{ order.id }}</div>
-                                <span>{{ order.description }}</span>
+                            <div class="canban-content" v-if="order">
+                                <span class="item__title-first" v-if="order.id.toString().length === 1">№ 000{{order.id}}</span>
+                                <span class="item__title-first" v-if="order.id.toString().length === 2">№ 00{{order.id}}</span>
+                                <span class="item__title-first" v-if="order.id.toString().length === 3">№ 0{{order.id}}</span>
+                                <span class="item__title-second" v-for="customer in customers" :key="customer.id">
+                                <span v-if="order.customer_id === customer.id">
+                                    {{customer.name}} {{customer.surname}}</span>
+                                </span>
+                                <span class="item__title-third" v-if="order.price">{{order.price}} грн</span>
+                                <span class="item__title-first" v-if="order.text_execution">Задача:</span>
+                                <span v-if="order.text_execution">{{order.text_execution}}</span>
+                                <span class="item__title-third" v-if="order.date_execution">{{order.date_execution}}</span>
                             </div>
                         </v-card-title>
-                        <v-card-actions>
+                        <v-card-actions class="actions__wr">
                             <router-link class="primary-button-options" :to="{ path: 'orders/'+ order.id +'/edit' }">
                                 <v-btn flat icon color="pink">
-                                    <v-icon size="19px">border_color</v-icon>
+                                    <v-icon size="15px">border_color</v-icon>
                                 </v-btn>
                             </router-link>
+                            <v-btn flat icon color="pink" @click="showDialog(order.id)">
+                                <v-icon size="15px">delete</v-icon>
+                            </v-btn>
                         </v-card-actions>
                     </v-card>
                 </draggable>
@@ -149,17 +213,29 @@
                     :data-id = "order.id"
                     >
                         <v-card-title primary-title class="card-canban">
-                            <div>
-                                <div class="headline">{{ order.id }}</div>
-                                <span>{{ order.description }}</span>
+                            <div class="canban-content" v-if="order">
+                                <span class="item__title-first" v-if="order.id.toString().length === 1">№ 000{{order.id}}</span>
+                                <span class="item__title-first" v-if="order.id.toString().length === 2">№ 00{{order.id}}</span>
+                                <span class="item__title-first" v-if="order.id.toString().length === 3">№ 0{{order.id}}</span>
+                                <span class="item__title-second" v-for="customer in customers" :key="customer.id">
+                                <span v-if="order.customer_id === customer.id">
+                                    {{customer.name}} {{customer.surname}}</span>
+                                </span>
+                                <span class="item__title-third" v-if="order.price">{{order.price}} грн</span>
+                                <span class="item__title-first" v-if="order.text_execution">Задача:</span>
+                                <span v-if="order.text_execution">{{order.text_execution}}</span>
+                                <span class="item__title-third" v-if="order.date_execution">{{order.date_execution}}</span>
                             </div>
                         </v-card-title>
-                        <v-card-actions>
-                            <router-link :to="{ path: 'orders/'+ order.id +'/edit' }">
+                        <v-card-actions class="actions__wr">
+                            <router-link class="primary-button-options" :to="{ path: 'orders/'+ order.id +'/edit' }">
                                 <v-btn flat icon color="pink">
-                                    <v-icon size="19px">border_color</v-icon>
+                                    <v-icon size="15px">border_color</v-icon>
                                 </v-btn>
                             </router-link>
+                            <v-btn flat icon color="pink" @click="showDialog(order.id)">
+                                <v-icon size="15px">delete</v-icon>
+                            </v-btn>
                         </v-card-actions>
                     </v-card>
                 </draggable>
@@ -186,17 +262,29 @@
                     :data-id = "order.id"
                     >
                         <v-card-title primary-title class="card-canban">
-                            <div>
-                                <div class="headline">{{ order.id }}</div>
-                                <span>{{ order.description }}</span>
+                            <div class="canban-content" v-if="order">
+                                <span class="item__title-first" v-if="order.id.toString().length === 1">№ 000{{order.id}}</span>
+                                <span class="item__title-first" v-if="order.id.toString().length === 2">№ 00{{order.id}}</span>
+                                <span class="item__title-first" v-if="order.id.toString().length === 3">№ 0{{order.id}}</span>
+                                <span class="item__title-second" v-for="customer in customers" :key="customer.id">
+                                <span v-if="order.customer_id === customer.id">
+                                    {{customer.name}} {{customer.surname}}</span>
+                                </span>
+                                <span class="item__title-third" v-if="order.price">{{order.price}} грн</span>
+                                <span class="item__title-first" v-if="order.text_execution">Задача:</span>
+                                <span v-if="order.text_execution">{{order.text_execution}}</span>
+                                <span class="item__title-third" v-if="order.date_execution">{{order.date_execution}}</span>
                             </div>
                         </v-card-title>
-                        <v-card-actions>
-                            <router-link :to="{ path: 'orders/'+ order.id +'/edit' }">
+                        <v-card-actions class="actions__wr">
+                            <router-link class="primary-button-options" :to="{ path: 'orders/'+ order.id +'/edit' }">
                                 <v-btn flat icon color="pink">
-                                    <v-icon size="19px">border_color</v-icon>
+                                    <v-icon size="15px">border_color</v-icon>
                                 </v-btn>
                             </router-link>
+                            <v-btn flat icon color="pink" @click="showDialog(order.id)">
+                                <v-icon size="15px">delete</v-icon>
+                            </v-btn>
                         </v-card-actions>
                     </v-card>
                 </draggable>
@@ -204,13 +292,15 @@
  <!-- COLUMN 5     -->
 
         </v-layout>
-    </div>
+      </div>
+    </v-app>
 </template>
 <script>
 
 import api from '../api/orders';
 import draggable from 'vuedraggable';
 import loader from '../components/Loader.vue';
+import customer_api from '../api/customers';
 
 export default {
     data() {
@@ -222,6 +312,9 @@ export default {
             canban_third_column: null,
             canban_fourth_column: null,
             canban_fiveth_column: null,
+            customers: [],
+            dialog: false,
+            dialog_id: '',
         };
     },
     components:{
@@ -230,6 +323,7 @@ export default {
     },
     created() {
         this.getData();
+        this.getCusomersList();
     },
     methods: {
         getData(){
@@ -256,8 +350,8 @@ export default {
                     canban_column: col
                 })
                 .then((response) => {
-                    this.error = 'State saved!';
-                    setTimeout(() => this.message = null, 2000);
+                    this.error = 'Стан замовлень було змiнено';
+                    setTimeout(() => this.error = null, 2000);
                 })
                 .catch(error => {
                     this.error = error.response.data.message || error.message;
@@ -270,7 +364,8 @@ export default {
             api.updateAll({
                 data: this.canban_first_column
             }).then((response) => {
-                    this.error = 'State saved!'; setTimeout(() => this.message = null, 2000);
+                    this.error = 'Стан замовлень було змiнено';
+                    setTimeout(() => this.error = null, 2000);
             }).catch(error => {
                 this.error = error.response.data.message || error.message;
             });
@@ -282,7 +377,8 @@ export default {
             api.updateAll({
                 data: this.canban_second_column
             }).then((response) => {
-                    this.error = 'State saved!'; setTimeout(() => this.message = null, 2000);
+                    this.error = 'Стан замовлень було змiнено';
+                    setTimeout(() => this.error = null, 2000);
             }).catch(error => {
                 this.error = error.response.data.message || error.message;
             });
@@ -294,7 +390,8 @@ export default {
             api.updateAll({
                 data: this.canban_third_column
             }).then((response) => {
-                    this.error = 'State saved!'; setTimeout(() => this.message = null, 2000);
+                    this.error = 'Стан замовлень було змiнено';
+                    setTimeout(() => this.error = null, 2000);
             }).catch(error => {
                 this.error = error.response.data.message || error.message;
             });
@@ -306,7 +403,8 @@ export default {
             api.updateAll({
                 data: this.canban_fourth_column
             }).then((response) => {
-                    this.error = 'State saved!'; setTimeout(() => this.message = null, 2000);
+                    this.error = 'Стан замовлень було змiнено';
+                    setTimeout(() => this.error = null, 2000);
             }).catch(error => {
                 this.error = error.response.data.message || error.message;
             });
@@ -318,11 +416,109 @@ export default {
             api.updateAll({
                 data: this.canban_fiveth_column
             }).then((response) => {
-                    this.error = 'State saved!'; setTimeout(() => this.message = null, 2000);
+                    this.error = 'Стан замовлень було змiнено';
+                    setTimeout(() => this.error = null, 2000);
             }).catch(error => {
                 this.error = error.response.data.message || error.message;
             });
-        }
+        },
+        getCusomersList(){
+            customer_api
+                .all()
+                .then(response => {
+                    this.customers = response.data.data;
+                })
+                .catch(error => {
+                    this.error = error.response.data.message || error.message;
+                });
+        },
+        onDelete(){
+            this.saving = true;
+            api.delete(this.dialog_id)
+                .then((response) => {
+                    this.message = 'Замовлення видалено';
+                    this.dropDialog();
+                    location.reload();
+                })
+                .catch(error => {
+                    this.error = error.response.data.message || error.message;
+                });
+        },
+        dropDialog(){
+            this.dialog = false;
+            this.dialog_id = null
+        },
+        showDialog(id){
+            this.dialog_id = id;
+            this.dialog = true;
+        },
     }
 }
 </script>
+<style>
+.users{
+    background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2560x1707/716c102132015fb68fe182f751188b8e/photo-1551291420-91160f3d4961");
+    background-size: cover;
+    min-height: calc(100vh);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.col-canban{
+    background-color: rgba(58, 0, 174, 0.2);
+    border: 1px groove rgba(66, 66, 66, 0.9);
+    border-radius: 5px;
+    /* margin: 0 5px; */
+    padding: 0;
+    min-height: 200px;
+    margin: 2px 10px;
+    flex: 0 0 18%;
+    max-width: 18%;
+}
+.col-canban__title{
+    text-align: center;
+    border-bottom: 1px groove rgba(66, 66, 66, 0.9);
+    background-color: rgba(58, 0, 174, 0.3);
+}
+.col-canban__title > h3{
+    font-family: 'Pattaya', sans-serif!important;
+    color: white;
+    width: 100%;
+    min-height: 50px;
+}
+.card-canban{
+    padding: 2px!important;
+}
+.canban__wr{
+    padding: 10px;
+    justify-content: center;
+    align-items: flex-start;
+}
+.primary-button-options:hover{
+    text-decoration: none;
+}
+.card-decor{
+    border-radius: 0!important;
+    margin: 10px 10px;
+}
+.canban-content{
+    display: flex;
+    flex-direction: column;
+}
+.item__title-first{
+    font-weight: 700;
+}
+.item__title-second{
+    font-size: 16px;
+}
+.item__title-third{
+    color: #929292;
+}
+.actions__wr{
+    padding: 0!important;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+</style>
