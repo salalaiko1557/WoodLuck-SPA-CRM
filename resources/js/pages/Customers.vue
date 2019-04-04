@@ -1,11 +1,17 @@
 <template>
    <v-app>
-      <div v-if="error" class="error">
-            {{ error }}
-      </div>
-        <!-- SHOW MODAL WINDOW -->
-
-
+     <div class="customers__wr">
+          <!-- SHOW MODAL WINDOW -->
+        <router-view></router-view>
+      <v-alert
+            v-if="error"
+            :value="true"
+            color="success"
+            class="alert-active"
+            icon="notifications_active"
+        >
+            {{error}}
+        </v-alert>
        <v-dialog v-model="dialog" max-width="290">
       <v-card>
         <v-card-title class="headline">Видалити клієнта {{dialog_customer_name}} {{dialog_customer_surname}}?</v-card-title>
@@ -47,17 +53,17 @@
             :search="search"
             >
             <template v-slot:items="props">
-                <td class="text-xs-right">{{ props.item.name }}</td>
-                <td class="text-xs-right">{{ props.item.surname }}</td>
-                <td class="text-xs-right">{{ props.item.company }}</td>
-                <td class="text-xs-right">{{ props.item.telephone }}</td>
-                <td class="text-xs-right">{{ props.item.email }}</td>
-                <td class="text-xs-right">{{ props.item.orders_sum }}</td>
-                <td class="text-xs-right">{{ props.item.source_id }}</td>
-                <td class="text-xs-right">{{ props.item.delivery }}</td>
-                <td class="text-xs-right">{{ props.item.rate_value }}</td>
-                <td class="text-xs-right">{{ props.item.rate_description }}</td>
-                <td class="text-xs-right">
+                <td class="text-xs-left">{{ props.item.name }}</td>
+                <td class="text-xs-left">{{ props.item.surname }}</td>
+                <td class="text-xs-left">{{ props.item.company }}</td>
+                <td class="text-xs-left">{{ props.item.telephone }}</td>
+                <td class="text-xs-left">{{ props.item.email }}</td>
+                <td class="text-xs-left">{{ props.item.orders_sum }}</td>
+                <td class="text-xs-left">{{ props.item.source_id }}</td>
+                <td class="text-xs-left">{{ props.item.delivery }}</td>
+                <td class="text-xs-left">{{ props.item.rate_value }}</td>
+                <td class="text-xs-left">{{ props.item.rate_description }}</td>
+                <td class="text-xs-left">
                     <v-btn flat icon color="indigo">
                             <router-link class="primary-button-options" :to="{ path: 'customers/'+ props.item.id +'/edit' }">
                                 <v-icon size="15px">edit</v-icon>
@@ -85,6 +91,7 @@
             </v-data-table>
         </v-card>
     </v-container>
+    </div>
   </v-app>
 </template>
 
@@ -158,3 +165,20 @@ import api from '../api/customers';
     }
   }
 </script>
+<style scoped>
+.customers__wr{
+    background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1365x2048/b5ee9efaa5ff282d26f87808b2908662/photo-1551623063-254429e1f216");
+    background-size: cover;
+    padding: 20px 10px;
+    height: calc(100vh);
+    width: 100%;
+
+}
+.theme--light.application {
+    background: #fafafa;
+    color: rgba(0,0,0,.87);
+    position: relative;
+
+}
+</style>
+

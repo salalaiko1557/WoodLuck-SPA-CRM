@@ -1,6 +1,6 @@
 
 <template>
-    <v-app>
+
     <div class="popup__wr">
       <v-container>
         <div v-if="message" class="alert">{{ message }}</div>
@@ -25,7 +25,7 @@
         </aside>
       </v-container>
     </div>
-    </v-app>
+
 </template>
 
 <script>
@@ -72,6 +72,7 @@ export default {
         .then((response) => {
             this.message = 'Користувача було створено';
             setTimeout(() => this.$router.push({ name: 'users.index' }), 2000);
+            setTimeout(() => location.reload(), 3000);
         })
         .catch(error => {
             console.log(error)

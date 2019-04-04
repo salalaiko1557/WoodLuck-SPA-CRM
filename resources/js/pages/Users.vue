@@ -1,11 +1,18 @@
 <template>
    <v-app>
+    <div class="users__wr">
     <div v-if="role === '2'">
-      <div v-if="error" class="error">
-            {{ error }}
-      </div>
+      <v-alert
+            v-if="error"
+            :value="true"
+            color="success"
+            class="alert-active"
+            icon="notifications_active"
+        >
+            {{error}}
+        </v-alert>
         <!-- SHOW MODAL WINDOW -->
-
+        <router-view></router-view>
 
        <v-dialog v-model="dialog" max-width="290">
       <v-card>
@@ -75,14 +82,17 @@
                 </td>
     </template>
             <v-alert v-slot:no-results :value="true" color="error" icon="warning">
-                Your search for "{{ search }}" found no results.
+                Пошук не дав результату
             </v-alert>
             </v-data-table>
         </v-card>
     </v-container>
     </div>
     <div v-else>
-        У вас немає прав на перегляд цих даних
+        <v-container>
+            <p class="no-permission">У вас немає прав на перегляд цих даних</p>
+        </v-container>
+    </div>
     </div>
   </v-app>
 </template>
@@ -154,3 +164,16 @@ import api from '../api/users';
     }
   }
 </script>
+<style scoped>
+.users__wr{
+    background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1365x2048/f8b8ab11a56c0f28e71724fb950b9b21/photo-1550580042-02e87271dafa");
+    background-size: cover;
+    padding: 20px 10px;
+    height: calc(100vh);
+}
+.no-permission{
+    font-size: 28px;
+    color: white;
+    text-align: center;
+}
+</style>

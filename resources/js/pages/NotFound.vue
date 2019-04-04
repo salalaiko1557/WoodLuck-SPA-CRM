@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <h2>Not Found</h2>
-    <p>Woops! Looks like the page you requested cannot be found.</p>
-  </div>
+  <v-app>
+    <div>
+        Сторiнка в процесi прозробки
+    </div>
+  </v-app>
 </template>

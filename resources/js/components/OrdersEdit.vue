@@ -1,8 +1,17 @@
 <template>
-    <v-app>
+    <!-- <v-app> -->
      <div class="popup__wr">
       <v-container>
-        <div v-if="message" class="alert">{{ message }}</div>
+        <v-alert
+            style="width: 100%"
+            v-if="message"
+            :value="true"
+            color="success"
+            class="alert-active"
+            icon="notifications_active"
+        >
+            {{message}}
+        </v-alert>
         <div v-if="! loaded">
           <loader></loader>
         </div>
@@ -79,8 +88,6 @@
             @click="material_input_id = []; material_objects_from_child = []; material_objects_from_child_new = []; order.material_id =[]; material_input_id_new =[]">
                     Видалити матерiали
             </v-btn>
-
-            <v-btn flat color="primary" @click="order.draw = null">Додати креслення</v-btn>
             <div class="form-group">
                 <v-btn flat color="primary" type="submit" :disabled="saving">Зберегти замовлення</v-btn>
                 <router-link :to="{name: 'orders.index'}">
@@ -91,7 +98,7 @@
         </aside>
       </v-container>
      </div>
-    </v-app>
+    <!-- </v-app> -->
 </template>
 <script>
 import api from '../api/orders';
@@ -172,6 +179,7 @@ export default {
         }).then((response) => {
             this.message = 'Замовлення оновлено!';
             setTimeout(() => this.$router.push({ name: 'orders.index' }), 2000);
+            setTimeout(() => location.reload(), 3000);
         }).catch(error => {
             this.error = error.response.data.message || error.message;
         })
@@ -280,6 +288,24 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.popup__wr{
+    color: rgba(0,0,0,.87);
+    position: absolute!important;
+    background: aliceblue;
+    top: 20px!important;
+    z-index: 6!important;
+    opacity: .97!important;
+    width: max-content;
+    margin: 0;
+}
+.action-form{
+    color: white;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+}
 
 </style>

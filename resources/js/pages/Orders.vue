@@ -1,6 +1,8 @@
 <template>
     <v-app>
       <div class="users">
+          <!-- SHOW MODAL WINDOW -->
+            <router-view></router-view>
         <div class="loading" v-if="loading">
             <loader></loader>
         </div>
@@ -42,9 +44,9 @@
                     <v-icon size="50px" right dark>add_circle_outline</v-icon>
                 </v-btn>
             </router-link>
-        <!-- SHOW MODAL WINDOW -->
-            <router-view></router-view>
+
         <v-layout class="canban__wr">
+
 <!-- COLUMN 1     -->
             <div class="col-canban">
                 <v-card-title
@@ -463,6 +465,12 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.theme--light.application {
+    background: #fafafa;
+    color: rgba(0,0,0,.87);
+    position: relative;
+    z-index: 5;
 }
 
 .col-canban{

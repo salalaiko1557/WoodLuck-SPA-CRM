@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+
     <div class="popup__wr">
       <v-container>
         <div v-if="message" class="alert">{{ message }}</div>
@@ -22,7 +22,7 @@
         </aside>
       </v-container>
     </div>
-  </v-app>
+
 </template>
 <script>
 
@@ -68,8 +68,9 @@ export default {
             email:    this.user.email,
             role:     this.user.role,
         }).then((response) => {
-            this.message = 'Користувача оновлено';
+            this.message = 'Данi користувача оновлено';
             setTimeout(() => this.$router.push({ name: 'users.index' }), 2000);
+            setTimeout(() => location.reload(), 3000);
         }).catch(error => {
             console.log(error)
         }).then( () => this.saving = false);

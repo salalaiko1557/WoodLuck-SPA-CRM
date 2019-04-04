@@ -72,16 +72,18 @@ const router = new VueRouter({
             path: '/orders',
             name: 'orders.index',
             component: Orders,
-        },
-        {
-            path: '/orders/:id/edit',
-            name: 'orders.edit',
-            component: OrdersEdit,
-        },
-        {
-            path: '/orders/create',
-            name: 'orders.create',
-            component: OrdersCreate,
+            children: [
+                {
+                    path: '/orders/:id/edit',
+                    name: 'orders.edit',
+                    component: OrdersEdit,
+                },
+                {
+                    path: '/orders/create',
+                    name: 'orders.create',
+                    component: OrdersCreate,
+                },
+            ]
         },
 // роуты заказов
 // роуты клиентов
@@ -89,16 +91,18 @@ const router = new VueRouter({
             path: '/customers',
             name: 'customers.index',
             component: Customers,
-        },
-        {
-            path: '/customers/:id/edit',
-            name: 'customers.edit',
-            component: CustomersEdit,
-        },
-        {
-            path: '/customers/create',
-            name: 'customers.create',
-            component: CustomersCreate,
+            children: [
+                {
+                    path: '/customers/:id/edit',
+                    name: 'customers.edit',
+                    component: CustomersEdit,
+                },
+                {
+                    path: '/customers/create',
+                    name: 'customers.create',
+                    component: CustomersCreate,
+                },
+            ]
         },
 // роуты клиентов
 // роуты склада
@@ -106,16 +110,18 @@ const router = new VueRouter({
             path: '/stock',
             name: 'stocks.index',
             component: Stock,
-        },
-        {
-            path: '/stock/:id/edit',
-            name: 'stocks.edit',
-            component: MaterialEdit,
-        },
-        {
-            path: '/stock/create',
-            name: 'stocks.create',
-            component: MaterialCreate,
+            children: [
+                {
+                    path: '/stock/:id/edit',
+                    name: 'stocks.edit',
+                    component: MaterialEdit,
+                },
+                {
+                    path: '/stock/create',
+                    name: 'stocks.create',
+                    component: MaterialCreate,
+                },
+            ]
         },
 // роуты склада
 // роуты пользователей
@@ -123,16 +129,18 @@ const router = new VueRouter({
             path: '/users',
             name: 'users.index',
             component: Users,
-        },
-        {
-            path: '/users/create',
-            name: 'users.create',
-            component: UsersCreate,
-        },
-        {
-            path: '/users/:id/edit',
-            name: 'users.edit',
-            component: UsersEdit,
+            children: [
+                {
+                    path: '/users/create',
+                    name: 'users.create',
+                    component: UsersCreate,
+                },
+                {
+                    path: '/users/:id/edit',
+                    name: 'users.edit',
+                    component: UsersEdit,
+                },
+            ]
         },
 // роуты пользователей
 

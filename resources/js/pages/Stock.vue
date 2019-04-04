@@ -1,10 +1,18 @@
 <template>
    <v-app>
+     <div class="stock__wr">
+         <!-- SHOW MODAL WINDOW -->
+            <router-view></router-view>
        <div v-if="role === '2'">
-        <div v-if="error" class="error">
-                {{ error }}
-        </div>
-            <!-- SHOW MODAL WINDOW -->
+        <v-alert
+            v-if="error"
+            :value="true"
+            color="success"
+            class="alert-active"
+            icon="notifications_active"
+        >
+            {{error}}
+        </v-alert>
         <v-dialog v-model="dialog" max-width="290">
         <v-card>
             <v-card-title class="headline">Видалити матерiал {{dialog_material_name}}?</v-card-title>
@@ -72,14 +80,17 @@
                     </td>
         </template>
                 <v-alert v-slot:no-results :value="true" color="error" icon="warning">
-                    Your search for "{{ search }}" found no results.
+                    Пошук не дав результату
                 </v-alert>
                 </v-data-table>
             </v-card>
         </v-container>
     </div>
     <div v-else>
-        У вас немає прав на перегляд цих даних
+        <v-container>
+            <p class="no-permission">У вас немає прав на перегляд цих даних</p>
+        </v-container>
+    </div>
     </div>
   </v-app>
 </template>
@@ -153,3 +164,17 @@ import RoleHelper from '../components/RoleHelper.vue'
     },
   }
 </script>
+<style>
+.stock__wr{
+    background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1536x2048/23510479a84e6e5203c6394c3a50eae1/photo-1550795658-d7d23cfaf9ee");
+    background-size: cover;
+    padding: 20px 10px;
+    height: calc(100vh);
+    position: relative;
+}
+.no-permission{
+    font-size: 28px;
+    color: white;
+    text-align: center;
+}
+</style>

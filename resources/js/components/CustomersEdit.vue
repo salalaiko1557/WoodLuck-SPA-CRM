@@ -1,8 +1,17 @@
 <template>
-  <v-app>
+
     <div class="popup__wr">
       <v-container>
-        <div v-if="message" class="alert">{{ message }}</div>
+        <v-alert
+            style="width: 100%"
+            v-if="message"
+            :value="true"
+            color="success"
+            class="alert-active"
+            icon="notifications_active"
+        >
+            {{message}}
+        </v-alert>
         <div v-if="! loaded">
           <loader></loader>
         </div>
@@ -29,7 +38,7 @@
         </aside>
       </v-container>
     </div>
-  </v-app>
+
 </template>
 <script>
 
@@ -81,8 +90,9 @@ export default {
             rate_value:       this.customer.rate_value,
             rate_description: this.customer.rate_description
         }).then((response) => {
-            this.message = 'Customer updated';
+            this.message = 'Данi клієнта оновлено';
             setTimeout(() => this.$router.push({ name: 'customers.index' }), 2000);
+            setTimeout(() => location.reload(), 3000);
             // this.customer = response.data.data;
         }).catch(error => {
             console.log(error)
@@ -118,6 +128,40 @@ export default {
 };
 </script>
 
-<style>
-
+<style scoped>
+.popup__wr{
+    color: rgba(0,0,0,.87);
+    position: absolute!important;
+    background: aliceblue;
+    top: 20px!important;
+    z-index: 6!important;
+    opacity: .97!important;
+    width: max-content;
+    margin: 0 35%;
+}
+.form__wr{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    font-size: 16px;
+    /* border: 2px solid white; */
+}
+.form-title{
+    text-align: center;
+    width: 100%;
+    border-bottom: 2px solid rgba(0,0,0,.87);
+    margin-bottom: 20px;
+}
+.action-form{
+    color: white;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+}
+.v-text-field__prefix{
+    color: black;
+}
 </style>

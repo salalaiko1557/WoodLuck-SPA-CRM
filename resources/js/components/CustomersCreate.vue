@@ -1,9 +1,17 @@
 
 <template>
-    <v-app>
     <div class="popup__wr">
       <v-container>
-        <div v-if="message" class="alert">{{ message }}</div>
+        <v-alert
+            style="width: 100%"
+            v-if="message"
+            :value="true"
+            color="success"
+            class="alert-active"
+            icon="notifications_active"
+        >
+            {{message}}
+        </v-alert>
         <div v-if="! loaded">
           <loader></loader>
         </div>
@@ -22,21 +30,16 @@
                 <v-text-field v-model="customer.rate_value" label="Рейтинг" type="number" required></v-text-field>
                 <v-textarea name="input-7-1" label="Опис рейтингу" v-model="customer.rate_description"></v-textarea>
                 <div class="form-group">
-                    <v-btn flat color="primary" type="submit" :disabled="saving">Зберегти замовлення</v-btn>
+                    <v-btn flat color="primary" type="submit" :disabled="saving">Зберегти клієнта</v-btn>
                     <router-link :to="{name: 'customers.index'}">
                         <v-btn flat color="primary" type="submit" :disabled="saving">Закрити</v-btn>
                     </router-link>
                 </div>
-        </form>
-
-
-
+            </form>
         </aside>
-
       </v-container>
+    </div>
 
-  </div>
-    </v-app>
 </template>
 
 
@@ -87,8 +90,9 @@ export default {
             rate_description: this.customer.rate_description
         })
         .then((response) => {
-            this.message = 'Customer Created';
+            this.message = 'Клієнта створено';
             setTimeout(() => this.$router.push({ name: 'customers.index' }), 2000);
+            setTimeout(() => location.reload(), 3000);
         })
         .catch(error => {
             console.log(error)
@@ -112,13 +116,16 @@ created(){
 
 };
 </script>
-<style>
+<style scoped>
 .popup__wr{
     color: rgba(0,0,0,.87);
-    position: relative;
-    background: #CFD8DC;
-    top: -95px;
-    opacity: .8;
+    position: absolute!important;
+    background: aliceblue;
+    top: 20px!important;
+    z-index: 6!important;
+    opacity: .97!important;
+    max-width: max-content;
+    margin: 0 35%;
 }
 .form__wr{
     display: flex;
@@ -137,6 +144,13 @@ created(){
 .action-form{
     color: white;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+}
+.v-text-field__prefix{
+    color: black;
 }
 
 </style>
