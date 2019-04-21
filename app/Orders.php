@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Orders extends Model
 {
     protected $casts = [
-        'material_id' => 'array',
+        // 'material_id' => 'array',
+        // 'draw' => 'array',
     ];
     protected $fillable =
     [
@@ -24,6 +25,7 @@ class Orders extends Model
         'canban_status',
         'canban_column',
         'draw',
-        'mires_id'
+        'mires_id',
+	    'delivery_adress'
     ];
 }

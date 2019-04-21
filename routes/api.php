@@ -20,11 +20,12 @@ Route::namespace('Api')->group(function () {
     //слой связки api
     //Заказы
     Route::get('/orders',            'OrderController@all');
+    Route::put('/orders/updateAll',  'OrderController@updateAll');
     Route::get('/orders/{order}',    'OrderController@show');
-    Route::put('/orders/{order}',    'OrderController@update');
-    Route::post('/orders/updateAll', 'OrderController@updateAll');
+    Route::put('/orders/{order_id}', 'OrderController@update');
     Route::delete('/orders/{order}', 'OrderController@destroy');
     Route::post('/orders/create',    'OrderController@create');
+    Route::post('/orders/draw',       'OrderController@getDraw');
     ////
     //Клиенты
     Route::get('/customers',               'CustomerController@all');

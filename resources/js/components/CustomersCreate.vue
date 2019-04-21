@@ -22,8 +22,8 @@
                 <v-text-field v-model="customer.name" label="Iм'я" required></v-text-field>
                 <v-text-field v-model="customer.surname" label="Прiзвище" required></v-text-field>
                 <v-text-field v-model="customer.company" label="Компанiя" required></v-text-field>
-                <v-text-field v-model="customer.telephone" label="Телефон" prefix="+3" mask="#(###) ### - ## - ##"></v-text-field>
-                <v-text-field v-model="customer.email" label="Пошта" :rules="emailRules" required></v-text-field>
+                <v-text-field v-model="customer.telephone" label="Телефон" mask="(###) ### - ## - ##"></v-text-field>
+                <v-text-field v-model="customer.email" label="Пошта" :rules="emailRules"></v-text-field>
                 <v-text-field v-model="customer.orders_sum" label="Сума замовлень" required></v-text-field>
                 <v-select v-model="customer.source_id" :items="sources" item-text="name" item-value="id" label="Джерело"></v-select>
                 <v-text-field v-model="customer.delivery" label="Адреса доставки" required></v-text-field>

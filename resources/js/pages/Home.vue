@@ -3,7 +3,11 @@
         <div class="loading" v-if="loading">
             <loader></loader>
         </div>
+        {{getDateTime}}
+        <h3 class="datetime">
+            {{date}} – {{time}}
 
+        </h3>
         <v-alert
             v-if="error"
             :value="true"
@@ -51,6 +55,8 @@ export default {
             error: null,
             orders: [],
             customers: [],
+            date: '',
+            time: ''
         };
     },
     created() {
@@ -78,8 +84,18 @@ export default {
                 })
                 .catch(error => {
                     this.error = error.response.data.message || error.message;
-        });
+                });
+        },
     },
+    computed:{
+        getDateTime(){
+            setInterval(()=> {
+                var nowDate = new Date();
+                this.date = nowDate.getDate()+'.'+(nowDate.getMonth()+1)+'.'+nowDate.getFullYear();
+                this.time = nowDate.getHours()+':'+nowDate.getMinutes();
+            })
+
+        }
     }
 }
 </script>
@@ -131,6 +147,12 @@ export default {
     font-weight: 500;
     font-size: 16px;
     text-align: left;
+}
+.datetime{
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    color: #6C6C6C;
+    font-size: 30px;
 }
 </style>
 

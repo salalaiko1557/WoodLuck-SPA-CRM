@@ -43,8 +43,11 @@ class OrderController extends Controller
     {
         return new OrderResource($order);
     }
-    public function update(Orders $order, Request $request)
+    public function update(int $order_id, Request $request)
     {
+        // info(['order_id' => $order_id, 'request' => $request->all()]);
+
+        $order = Orders::find($order_id);
         $data = $request->validate([
             'customer_id'    => '',
             'order_type_id'  => '',
@@ -58,12 +61,21 @@ class OrderController extends Controller
             'canban_status'  => '',
             'canban_column'  => '',
             'draw'           => '',
-            'mires_id'       => ''
+            'mires_id'       => '',
+            'delivery_adress'=> ''
         ]);
 
+        if($request->file('draw')){
+            $data['draw'] = $request->file('draw')->store('uploads', 'public');
+         }else{
+
+         }
         $order->update($data);
 
         return new OrderResource($order);
+    }
+    public function poebota(Request $request) {
+        info($request);
     }
     public function destroy(Orders $order)
     {
@@ -73,7 +85,6 @@ class OrderController extends Controller
     }
     public function create(Orders $order, Request $request)
     {
-
         $data = $request->validate([
             'customer_id'    => '',
             'order_type_id'  => '',
@@ -87,10 +98,15 @@ class OrderController extends Controller
             'canban_status'  => '',
             'canban_column'  => '',
             'draw'           => '',
-            'mires_id'       => ''
+            'mires_id'       => '',
+            'delivery_adress'=> ''
         ]);
-
-        $order->create($data);
+         if($request->file('draw')){
+            $data['draw'] = $request->file('draw')->store('uploads', 'public');
+         }else{
+            $data['draw'] = '';
+         }
+         $order->create($data);
 
         return new OrderResource($order);
     }
@@ -109,5 +125,8 @@ class OrderController extends Controller
         }
 
         return response('Update success', 200);
+    }
+    public function getDraw(Request $request){
+         return response()->download(storage_path('app/public/' . $request->draw));
     }
 }

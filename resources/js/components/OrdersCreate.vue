@@ -25,6 +25,7 @@
                 v-model="order.customer_id"
                 item-text="name"
                 item-value="id"
+                required
             >
             <template slot="selection" slot-scope="data">
                 {{ data.item.name }} {{data.item.surname}}
@@ -33,13 +34,13 @@
                 {{ data.item.name }} {{data.item.surname}}
             </template>
             </v-select>
-            <v-select v-model="order.order_type_id" :items="sources" item-text="name" item-value="id" label="Джерело"></v-select>
-            <v-text-field v-model="order.price" label="Вартiсть" :rules="price_rule" prefix="грн" required></v-text-field>
+            <v-select v-model="order.order_type_id" :items="sources" item-text="name" item-value="id" label="Джерело" required></v-select>
+            <v-text-field v-model="order.price" type="number" label="Вартiсть" prefix="грн"></v-text-field>
 
-            <v-select v-model="order.pay_type_id" :items="paytypes" item-text="name" item-value="id" label="Спосiб оплати"></v-select>
+            <v-select v-model="order.pay_type_id" :items="paytypes" item-text="name" item-value="id" label="Спосiб оплати" required="true"></v-select>
 
             <v-textarea name="input-7-1" label="Опис замовлення" v-model="order.description"></v-textarea>
-            <v-text-field v-model="order.text_execution" label="Встановити задачу" required></v-text-field>
+            <v-text-field v-model="order.text_execution" label="Встановити задачу"></v-text-field>
             <v-dialog
                 ref="dialog"
                 :return-value.sync="order.date_execution"
@@ -50,7 +51,7 @@
                 <template v-slot:activator="{ on }">
                     <v-text-field
                         v-model="order.date_execution"
-                        label="Picker in dialog"
+                        label="Дата"
                         prepend-icon="event"
                         readonly
                         v-on="on"
@@ -63,6 +64,17 @@
                 </v-date-picker>
             </v-dialog>
 
+            <v-text-field v-model="order.delivery_adress" label="Адреса доставки"></v-text-field>
+                <!-- <v-text-field
+                label="Чертеж"
+                type="file"
+                @change="setDraw"
+                ></v-text-field> -->
+                <a href="#" onclick="document.getElementById('upload').click(); return false;">Додати креслення</a>
+                <span class="black--text" v-if="draw_name">{{draw_name}}</span>
+                 <input type="file" name="upload" id="upload" accept=".pdf"
+                    @change="setDraw($event)"
+                    style="visibility: hidden;">
             <v-btn flat color="primary" @click="addInputGroup(event++)">Додати матерiали зi складу</v-btn>
 
             <!-- SELECT -->
@@ -107,6 +119,7 @@ import loader from './Loader.vue';
 export default {
   data() {
     return {
+
       material_input_id: [],
       material_objects_from_child: [],
       event: 0,
@@ -119,14 +132,15 @@ export default {
         id:             null,
         customer_id:    null,
         order_type_id:  null,
-        price:          "",
+        price:          0,
         pay_type_id:    null,
         description:    "",
         text_execution: "",
         date_execution: new Date().toISOString().substr(0, 10),
         material_id:    "",
-        material_count: null,
-        draw:           "",
+        material_count: "",
+        draw:           null,
+        delivery_adress: ""
       },
       customers:        [],
       sources:          [],
@@ -135,15 +149,20 @@ export default {
       customer_id:      null,
       customer_name:    "",
       customer_surname: "",
-      price_rule:[
-          v => /\b\d+\.\d{2}\b/.test(v) || 'Цiна повинна мати 2 символа пiсля точки (000.00)'
-      ]
+      draw_name: ''
+      // price_rule:[
+      //     v => /\b\d+\.\d{2}\b/.test(v) || 'Цiна повинна мати 2 символа пiсля точки (000.00)'
+      // ]
     }
   },
   components: {
       MaterialInput,
   },
   methods: {
+    setDraw(event){
+        this.order.draw = event.target.files[0];
+        this.draw_name = event.target.files[0].name;
+    },
     addInputGroup(event){
         this.material_input_id.push(event)
     },
@@ -154,30 +173,51 @@ export default {
         this.checkStockCount();
         if (!this.check_count){
             this.message = 'Ви задали кiлькiсть матерiалу, бiльшу нiж на складi';
-            setTimeout(2000);
+            setTimeout(1000);
         }
         else{
-            api.create({
-            customer_id:    this.order.customer_id,
-            order_type_id:  this.order.order_type_id,
-            pay_type_id:    this.order.pay_type_id,
-            price:          this.order.price,
-            description:    this.order.description,
-            text_execution: this.order.text_execution,
-            date_execution: this.order.date_execution,
-            material_id:    this.material_objects_from_child,
-            material_count: this.order.material_count,
-            draw:           this.order.draw
-        })
-        .then((response) => {
-            this.message = 'Замовлення створено!';
-            setTimeout(() => this.$router.push({ name: 'orders.index' }), 3000);
-            setTimeout(() => location.reload(), 3000);
 
-        })
-        .catch(error => {
-            console.log(error)
-        })
+            let form = new FormData();
+
+            form.set('customer_id', this.order.customer_id);
+            form.set('order_type_id', this.order.order_type_id);
+            form.set('price', this.order.price);
+            form.set('pay_type_id', this.order.pay_type_id);
+            form.set('description', this.order.description);
+            form.set('text_execution', this.order.text_execution);
+            form.set('date_execution', this.order.date_execution);
+            // form.set('material_id', this.material_objects_from_child);
+            form.set('material_count', this.order.material_count);
+            form.set('delivery_adress', this.order.delivery_adress);
+            form.append('material_id', JSON.stringify(this.material_objects_from_child));
+            form.append('draw', this.order.draw, this.draw_name);
+            api.create(form, {headers: {'Content-Type': 'multipart/form-data'}})
+            .then((response) => {
+                this.message = 'Замовлення створено!';
+                setTimeout(() => this.$router.push({ name: 'orders.index' }), 3000);
+                setTimeout(() => location.reload(), 3000);
+            })
+            .catch(error => {
+                console.log(error.message)
+            })
+            // .then((response) => {
+            // })
+            // .catch(error => {
+            //     console.log(error)
+            // })
+        // api.create({
+        //     customer_id: this.order.customer_id,
+        //     order_type_id : this.order.order_type_id,
+        //     price : this.order.price,
+        //     pay_type_id : this.order.pay_type_id,
+        //     description : this.order.description,
+        //     text_execution : this.order.text_execution,
+        //     date_execution : this.order.date_execution,
+        //     material_id : this.order.material_id,
+        //     material_count : this.order.material_count,
+        //     delivery_adress : this.order.delivery_adress
+        // }, {})
+
         .then( () => this.saving = false);
         }
     },
@@ -234,7 +274,7 @@ export default {
                     })
                         .then((response) => {
                             this.message = 'Кiлькiсть матерiалiв на складi було перераховано';
-                            setTimeout(2000);
+                            setTimeout(1000);
                         })
                         .catch(error => {
                             this.message = error.response.data.message || error.message;

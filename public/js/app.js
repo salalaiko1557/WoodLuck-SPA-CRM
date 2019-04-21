@@ -2734,6 +2734,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2756,14 +2768,15 @@ __webpack_require__.r(__webpack_exports__);
         id: null,
         customer_id: null,
         order_type_id: null,
-        price: "",
+        price: 0,
         pay_type_id: null,
         description: "",
         text_execution: "",
         date_execution: new Date().toISOString().substr(0, 10),
         material_id: "",
-        material_count: null,
-        draw: ""
+        material_count: "",
+        draw: null,
+        delivery_adress: ""
       },
       customers: [],
       sources: [],
@@ -2772,15 +2785,20 @@ __webpack_require__.r(__webpack_exports__);
       customer_id: null,
       customer_name: "",
       customer_surname: "",
-      price_rule: [function (v) {
-        return /\b\d+\.\d{2}\b/.test(v) || 'Цiна повинна мати 2 символа пiсля точки (000.00)';
-      }]
+      draw_name: '' // price_rule:[
+      //     v => /\b\d+\.\d{2}\b/.test(v) || 'Цiна повинна мати 2 символа пiсля точки (000.00)'
+      // ]
+
     };
   },
   components: {
     MaterialInput: _MaterialInput_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   methods: {
+    setDraw: function setDraw(event) {
+      this.order.draw = event.target.files[0];
+      this.draw_name = event.target.files[0].name;
+    },
     addInputGroup: function addInputGroup(event) {
       this.material_input_id.push(event);
     },
@@ -2794,19 +2812,25 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!this.check_count) {
         this.message = 'Ви задали кiлькiсть матерiалу, бiльшу нiж на складi';
-        setTimeout(2000);
+        setTimeout(1000);
       } else {
-        _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].create({
-          customer_id: this.order.customer_id,
-          order_type_id: this.order.order_type_id,
-          pay_type_id: this.order.pay_type_id,
-          price: this.order.price,
-          description: this.order.description,
-          text_execution: this.order.text_execution,
-          date_execution: this.order.date_execution,
-          material_id: this.material_objects_from_child,
-          material_count: this.order.material_count,
-          draw: this.order.draw
+        var form = new FormData();
+        form.set('customer_id', this.order.customer_id);
+        form.set('order_type_id', this.order.order_type_id);
+        form.set('price', this.order.price);
+        form.set('pay_type_id', this.order.pay_type_id);
+        form.set('description', this.order.description);
+        form.set('text_execution', this.order.text_execution);
+        form.set('date_execution', this.order.date_execution); // form.set('material_id', this.material_objects_from_child);
+
+        form.set('material_count', this.order.material_count);
+        form.set('delivery_adress', this.order.delivery_adress);
+        form.append('material_id', JSON.stringify(this.material_objects_from_child));
+        form.append('draw', this.order.draw, this.draw_name);
+        _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].create(form, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         }).then(function (response) {
           _this.message = 'Замовлення створено!';
           setTimeout(function () {
@@ -2818,8 +2842,25 @@ __webpack_require__.r(__webpack_exports__);
             return location.reload();
           }, 3000);
         }).catch(function (error) {
-          console.log(error);
-        }).then(function () {
+          console.log(error.message);
+        }) // .then((response) => {
+        // })
+        // .catch(error => {
+        //     console.log(error)
+        // })
+        // api.create({
+        //     customer_id: this.order.customer_id,
+        //     order_type_id : this.order.order_type_id,
+        //     price : this.order.price,
+        //     pay_type_id : this.order.pay_type_id,
+        //     description : this.order.description,
+        //     text_execution : this.order.text_execution,
+        //     date_execution : this.order.date_execution,
+        //     material_id : this.order.material_id,
+        //     material_count : this.order.material_count,
+        //     delivery_adress : this.order.delivery_adress
+        // }, {})
+        .then(function () {
           return _this.saving = false;
         });
       }
@@ -2872,7 +2913,7 @@ __webpack_require__.r(__webpack_exports__);
               count: remainder
             }).then(function (response) {
               _this5.message = 'Кiлькiсть матерiалiв на складi було перераховано';
-              setTimeout(2000);
+              setTimeout(1000);
             }).catch(function (error) {
               _this5.message = error.response.data.message || error.message;
               _this5.check_count = false;
@@ -3019,6 +3060,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3049,14 +3100,15 @@ __webpack_require__.r(__webpack_exports__);
         id: null,
         customer_id: null,
         order_type_id: null,
-        price: "",
+        price: 0,
         pay_type_id: null,
         description: "",
         text_execution: "",
         date_execution: null,
         material_id: "",
-        material_count: null,
-        draw: ""
+        material_count: 0,
+        draw: "",
+        delivery_adress: ""
       },
       customers: [],
       sources: [],
@@ -3064,17 +3116,43 @@ __webpack_require__.r(__webpack_exports__);
       customer_id: null,
       customer_name: "",
       customer_surname: "",
-      price_rule: [function (v) {
-        return /\b\d+\.\d{2}\b/.test(v) || 'Цiна повинна мати 2 символа пiсля точки (000.00)';
-      }]
+      draw_name: '' // price_rule:[
+      //     v => /\b\d+\.\d{2}\b/.test(v) || 'Цiна повинна мати 2 символа пiсля точки (000.00)'
+      //   ]
+
     };
   },
   methods: {
     addInputGroup: function addInputGroup(event) {
       this.material_input_id_new.push(event);
     },
-    onSubmit: function onSubmit(event) {
+    setDraw: function setDraw(event) {
+      this.order.draw = event.target.files[0];
+      this.draw_name = event.target.files[0].name;
+    },
+    getDraw: function getDraw() {
       var _this = this;
+
+      var form = new FormData();
+      form.set('draw', this.order.draw);
+      _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].getDraw(form, {
+        responseType: 'arraybuffer'
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data], {
+          type: 'application/pdf'
+        }));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'Креслення ' + _this.order.id + '.pdf'); //or any other extension
+
+        document.body.appendChild(link);
+        link.click();
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    onSubmit: function onSubmit(event) {
+      var _this2 = this;
 
       this.saving = true;
       this.checkStockCount();
@@ -3082,39 +3160,80 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.check_count) {
         this.message = 'Ви задали кiлькiсть матерiалу, бiльшу нiж на складi';
         setTimeout(2000);
-      }
+      } else {
+        if (this.order.material_id) {
+          if (this.material_objects_from_child) {
+            var materialsJson = JSON.stringify(this.order.material_id.concat(this.material_objects_from_child));
+          }
 
-      _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].update(this.order.id, {
-        customer_id: this.order.customer_id,
-        order_type_id: this.order.order_type_id,
-        pay_type_id: this.order.pay_type_id,
-        price: this.order.price,
-        description: this.order.description,
-        text_execution: this.order.text_execution,
-        date_execution: this.order.date_execution,
-        material_id: this.order.material_id.concat(this.material_objects_from_child).concat(this.material_objects_from_child_new),
-        material_count: this.order.material_count,
-        draw: this.order.draw
-      }).then(function (response) {
-        _this.message = 'Замовлення оновлено!';
-        setTimeout(function () {
-          return _this.$router.push({
-            name: 'orders.index'
-          });
-        }, 2000);
-        setTimeout(function () {
-          return location.reload();
-        }, 3000);
-      }).catch(function (error) {
-        _this.error = error.response.data.message || error.message;
-      });
+          if (this.material_objects_from_child_new) {
+            var materialsJson = JSON.stringify(this.order.material_id.concat(this.material_objects_from_child_new));
+          } else {
+            var materialsJson = JSON.stringify(this.order.material_id.concat(this.material_objects_from_child).concat(this.material_objects_from_child_new));
+          }
+        } else {
+          var materialsJson = null;
+        }
+
+        var form = new FormData();
+        form.set('_method', 'PUT');
+        form.set('customer_id', this.order.customer_id);
+        form.set('order_type_id', this.order.order_type_id);
+        form.set('price', this.order.price);
+        form.set('pay_type_id', this.order.pay_type_id);
+        form.set('description', this.order.description);
+        form.set('text_execution', this.order.text_execution);
+        form.set('date_execution', this.order.date_execution);
+        form.append('material_id', materialsJson); // form.set('material_count', this.order.material_count);
+
+        form.set('delivery_adress', this.order.delivery_adress);
+
+        if (typeof this.order.draw !== 'string') {
+          form.append('draw', this.order.draw, this.draw_name);
+        }
+
+        _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].update(this.order.id, form, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(function (response) {
+          _this2.message = 'Замовлення оновлено!';
+          setTimeout(function () {
+            return _this2.$router.push({
+              name: 'orders.index'
+            });
+          }, 2000);
+          setTimeout(function () {
+            return location.reload();
+          }, 3000);
+        }).catch(function (error) {
+          _this2.error = error.response.data.message || error.message;
+        }); // .then((response) => {
+        // })
+        // .catch(error => {
+        //     console.log(error)
+        // })
+        // api.update(this.order.id, {
+        // customer_id:    this.order.customer_id,
+        // order_type_id:  this.order.order_type_id,
+        // pay_type_id:    this.order.pay_type_id,
+        // price:          this.order.price,
+        // description:    this.order.description,
+        // text_execution: this.order.text_execution,
+        // date_execution: this.order.date_execution,
+        // material_id:    this.order.material_id ? this.order.material_id.concat(this.material_objects_from_child).concat(this.material_objects_from_child_new) : '',
+        // material_count: this.order.material_count,
+        // draw:           this.order.draw,
+        // delivery_adress: this.order.delivery_adress
+        //})
+      }
     },
     checkStockCount: function checkStockCount() {
       if (this.material_objects_from_child_new === []) {
         this.check_count = true;
       } else {
         this.material_objects_from_child_new.forEach(function (item) {
-          var _this2 = this;
+          var _this3 = this;
 
           if (item.count > item.name.count) {
             this.check_count = false;
@@ -3123,17 +3242,17 @@ __webpack_require__.r(__webpack_exports__);
             _api_stocks__WEBPACK_IMPORTED_MODULE_4__["default"].update(item.name.id, {
               count: remainder
             }).then(function (response) {
-              _this2.message = 'Кiлькiсть матерiалiв на складi було перераховано';
+              _this3.message = 'Кiлькiсть матерiалiв на складi було перераховано';
               setTimeout(2000);
             }).catch(function (error) {
-              _this2.message = error.response.data.message || error.message;
-              _this2.check_count = false;
+              _this3.message = error.response.data.message || error.message;
+              _this3.check_count = false;
             });
             _api_stocks__WEBPACK_IMPORTED_MODULE_4__["default"].check().then(function (response) {
-              _this2.message = 'Кiлькiсть матерiалiв на складi було перераховано';
+              _this3.message = 'Кiлькiсть матерiалiв на складi було перераховано';
             }).catch(function (error) {
-              _this2.message = error.response.data.message || error.message;
-              _this2.check_count = false;
+              _this3.message = error.response.data.message || error.message;
+              _this3.check_count = false;
             }); //TRUE
 
             this.check_count = true;
@@ -3142,58 +3261,59 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     onDelete: function onDelete(event) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.saving = true;
       _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].delete(this.order.id).then(function (response) {
-        _this3.message = 'ORDER Deleted';
+        _this4.message = 'Замовлення видалено';
         setTimeout(function () {
-          return _this3.$router.push({
+          return _this4.$router.push({
             name: 'orders.index'
           });
         }, 2000);
       });
     },
     checkError: function checkError() {
-      var _this4 = this;
+      var _this5 = this;
 
       _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].find(this.$route.params.id).then(function (response) {
         setTimeout(function () {
-          _this4.loaded = true;
-          _this4.order = response.data.data;
-          _this4.event = Math.floor(Math.random() * 1000) + 1; // console.log(this.order.material_id);
+          _this5.loaded = true;
+          _this5.order = response.data.data;
+          _this5.event = Math.floor(Math.random() * 1000) + 1;
+          _this5.order.material_id = JSON.parse(response.data.data.material_id);
         }, 2000);
       }).catch(function (err) {
-        _this4.$router.push({
+        _this5.$router.push({
           name: '404'
         });
       });
     },
     getCusomersList: function getCusomersList() {
-      var _this5 = this;
-
-      _api_customers__WEBPACK_IMPORTED_MODULE_1__["default"].all().then(function (response) {
-        _this5.customers = response.data.data;
-      }).catch(function (error) {
-        _this5.error = error.response.data.message || error.message;
-      });
-    },
-    getSourcesList: function getSourcesList() {
       var _this6 = this;
 
-      _api_sources__WEBPACK_IMPORTED_MODULE_2__["default"].all().then(function (response) {
-        _this6.sources = response.data.data;
+      _api_customers__WEBPACK_IMPORTED_MODULE_1__["default"].all().then(function (response) {
+        _this6.customers = response.data.data;
       }).catch(function (error) {
         _this6.error = error.response.data.message || error.message;
       });
     },
-    getPayTypesList: function getPayTypesList() {
+    getSourcesList: function getSourcesList() {
       var _this7 = this;
 
-      _api_paytypes__WEBPACK_IMPORTED_MODULE_3__["default"].all().then(function (response) {
-        _this7.paytypes = response.data.data;
+      _api_sources__WEBPACK_IMPORTED_MODULE_2__["default"].all().then(function (response) {
+        _this7.sources = response.data.data;
       }).catch(function (error) {
         _this7.error = error.response.data.message || error.message;
+      });
+    },
+    getPayTypesList: function getPayTypesList() {
+      var _this8 = this;
+
+      _api_paytypes__WEBPACK_IMPORTED_MODULE_3__["default"].all().then(function (response) {
+        _this8.paytypes = response.data.data;
+      }).catch(function (error) {
+        _this8.error = error.response.data.message || error.message;
       });
     },
     getMaterialNew: function getMaterialNew(material) {
@@ -3698,6 +3818,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -3710,7 +3834,9 @@ __webpack_require__.r(__webpack_exports__);
       loading: false,
       error: null,
       orders: [],
-      customers: []
+      customers: [],
+      date: '',
+      time: ''
     };
   },
   created: function created() {
@@ -3737,6 +3863,17 @@ __webpack_require__.r(__webpack_exports__);
         _this2.customers = response.data.data;
       }).catch(function (error) {
         _this2.error = error.response.data.message || error.message;
+      });
+    }
+  },
+  computed: {
+    getDateTime: function getDateTime() {
+      var _this3 = this;
+
+      setInterval(function () {
+        var nowDate = new Date();
+        _this3.date = nowDate.getDate() + '.' + (nowDate.getMonth() + 1) + '.' + nowDate.getFullYear();
+        _this3.time = nowDate.getHours() + ':' + nowDate.getMinutes();
       });
     }
   }
@@ -4105,9 +4242,17 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var id = event.item.getAttribute('data-id');
-      _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].update(id, {
-        canban_column: col
-      }).then(function (response) {
+      var form = new FormData();
+      form.set('_method', 'PUT');
+      form.set('canban_column', col);
+      _api_orders__WEBPACK_IMPORTED_MODULE_0__["default"].update(id, form, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }) // api.update( id, {
+      //         canban_column: col
+      //     })
+      .then(function (response) {
         _this2.error = 'Стан замовлень було змiнено';
         setTimeout(function () {
           return _this2.error = null;
@@ -9253,7 +9398,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.page__wr[data-v-b3c5cf30]{\n    padding: 20px 10px;\n    height: calc(100vh - 50px);\n    background: url('http://cdn.backgroundhost.com/backgrounds/subtlepatterns/purty_wood.png');\n}\n.page-title[data-v-b3c5cf30]{\n    font-family: 'Pattaya', sans-serif;\n    text-align: center;\n    color: #525252;\n    font-size: 40px;\n}\n.order-cards__wr[data-v-b3c5cf30]{\n    display: flex;\n    flex-wrap: wrap;\n}\n.single-card[data-v-b3c5cf30]{\n    border: 3px solid black;\n    border-radius: 3px;\n    display: flex;\n    flex-direction: column;\n    padding: 10px;\n    margin: 10px;\n    background: white;\n}\n.card-item__title-first[data-v-b3c5cf30]{\n    font-weight: 900;\n    font-size: 22px;\n    text-align: center;\n    color: #4D81C4;\n}\n.card-item__title-second[data-v-b3c5cf30]{\n    font-weight: 700;\n    font-size: 18px;\n    text-align: center;\n    color: #3C6498;\n}\n.card-item__title-fourth[data-v-b3c5cf30]{\n    font-weight: 700;\n    font-size: 18px;\n    text-align: center;\n    color: #6C6C6C;\n}\n.card-item__title-third[data-v-b3c5cf30]{\n    font-weight: 500;\n    font-size: 16px;\n    text-align: left;\n}\n", ""]);
+exports.push([module.i, "\n.page__wr[data-v-b3c5cf30]{\n    padding: 20px 10px;\n    height: calc(100vh - 50px);\n    background: url('http://cdn.backgroundhost.com/backgrounds/subtlepatterns/purty_wood.png');\n}\n.page-title[data-v-b3c5cf30]{\n    font-family: 'Pattaya', sans-serif;\n    text-align: center;\n    color: #525252;\n    font-size: 40px;\n}\n.order-cards__wr[data-v-b3c5cf30]{\n    display: flex;\n    flex-wrap: wrap;\n}\n.single-card[data-v-b3c5cf30]{\n    border: 3px solid black;\n    border-radius: 3px;\n    display: flex;\n    flex-direction: column;\n    padding: 10px;\n    margin: 10px;\n    background: white;\n}\n.card-item__title-first[data-v-b3c5cf30]{\n    font-weight: 900;\n    font-size: 22px;\n    text-align: center;\n    color: #4D81C4;\n}\n.card-item__title-second[data-v-b3c5cf30]{\n    font-weight: 700;\n    font-size: 18px;\n    text-align: center;\n    color: #3C6498;\n}\n.card-item__title-fourth[data-v-b3c5cf30]{\n    font-weight: 700;\n    font-size: 18px;\n    text-align: center;\n    color: #6C6C6C;\n}\n.card-item__title-third[data-v-b3c5cf30]{\n    font-weight: 500;\n    font-size: 16px;\n    text-align: left;\n}\n.datetime[data-v-b3c5cf30]{\n    text-align: center;\n    font-family: 'Raleway', sans-serif;\n    color: #6C6C6C;\n    font-size: 30px;\n}\n", ""]);
 
 // exports
 
@@ -9272,7 +9417,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.users{\n    background-image: url(\"https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2560x1707/716c102132015fb68fe182f751188b8e/photo-1551291420-91160f3d4961\");\n    background-size: cover;\n    min-height: calc(100vh);\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n}\n.theme--light.application {\n    background: #fafafa;\n    color: rgba(0,0,0,.87);\n    position: relative;\n    z-index: 5;\n}\n.col-canban{\n    background-color: rgba(58, 0, 174, 0.2);\n    border: 1px groove rgba(66, 66, 66, 0.9);\n    border-radius: 5px;\n    /* margin: 0 5px; */\n    padding: 0;\n    min-height: 200px;\n    margin: 2px 10px;\n    flex: 0 0 18%;\n    max-width: 18%;\n}\n.col-canban__title{\n    text-align: center;\n    border-bottom: 1px groove rgba(66, 66, 66, 0.9);\n    background-color: rgba(58, 0, 174, 0.3);\n}\n.col-canban__title > h3{\n    font-family: 'Pattaya', sans-serif!important;\n    color: white;\n    width: 100%;\n    min-height: 50px;\n}\n.card-canban{\n    padding: 2px!important;\n}\n.canban__wr{\n    padding: 10px;\n    justify-content: center;\n    align-items: flex-start;\n}\n.primary-button-options:hover{\n    text-decoration: none;\n}\n.card-decor{\n    border-radius: 0!important;\n    margin: 10px 10px;\n}\n.canban-content{\n    display: flex;\n    flex-direction: column;\n}\n.item__title-first{\n    font-weight: 700;\n}\n.item__title-second{\n    font-size: 16px;\n}\n.item__title-third{\n    color: #929292;\n}\n.actions__wr{\n    padding: 0!important;\n    display: flex;\n    flex-direction: row;\n    justify-content: flex-end;\n}\n", ""]);
+exports.push([module.i, "\n.users{\n    background-image: url(\"https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2560x1707/716c102132015fb68fe182f751188b8e/photo-1551291420-91160f3d4961\");\n    background-size: cover;\n    min-height: calc(100vh);\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n}\n.theme--light.application {\n    background: #fafafa;\n    color: rgba(0,0,0,.87);\n    position: relative;\n    z-index: 5;\n}\n.col-canban{\n    background-color: rgba(58, 0, 174, 0.2);\n    border: 1px groove rgba(66, 66, 66, 0.9);\n    border-radius: 5px;\n    /* margin: 0 5px; */\n    padding: 0;\n    min-height: 200px;\n    margin: 2px 10px;\n    flex: 0 0 18%;\n    max-width: 18%;\n}\n.col-canban__title{\n    text-align: center;\n    border-bottom: 1px groove rgba(66, 66, 66, 0.9);\n    background-color: rgba(58, 0, 174, 0.3);\n}\n.col-canban__title > h3{\n    font-family: 'Pattaya', sans-serif!important;\n    color: white;\n    width: 100%;\n    min-height: 50px;\n}\n.card-canban{\n    padding: 2px!important;\n}\n.canban__wr{\n    padding: 10px;\n    justify-content: center;\n    align-items: flex-start;\n    min-height: 900px;\n}\n.primary-button-options:hover{\n    text-decoration: none;\n}\n.card-decor{\n    border-radius: 0!important;\n    margin: 10px 10px;\n}\n.canban-content{\n    display: flex;\n    flex-direction: column;\n}\n.item__title-first{\n    font-weight: 700;\n}\n.item__title-second{\n    font-size: 16px;\n}\n.item__title-third{\n    color: #929292;\n}\n.actions__wr{\n    padding: 0!important;\n    display: flex;\n    flex-direction: row;\n    justify-content: flex-end;\n}\n", ""]);
 
 // exports
 
@@ -43650,11 +43795,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("v-text-field", {
-                    attrs: {
-                      label: "Телефон",
-                      prefix: "+3",
-                      mask: "#(###) ### - ## - ##"
-                    },
+                    attrs: { label: "Телефон", mask: "(###) ### - ## - ##" },
                     model: {
                       value: _vm.customer.telephone,
                       callback: function($$v) {
@@ -43665,11 +43806,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("v-text-field", {
-                    attrs: {
-                      label: "Пошта",
-                      rules: _vm.emailRules,
-                      required: ""
-                    },
+                    attrs: { label: "Пошта", rules: _vm.emailRules },
                     model: {
                       value: _vm.customer.email,
                       callback: function($$v) {
@@ -43892,11 +44029,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("v-text-field", {
-                    attrs: {
-                      label: "Телефон",
-                      prefix: "+3",
-                      mask: "#(###) ### - ## - ##"
-                    },
+                    attrs: { label: "Телефон", mask: "(###) ### - ## - ##" },
                     model: {
                       value: _vm.customer.telephone,
                       callback: function($$v) {
@@ -43907,11 +44040,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("v-text-field", {
-                    attrs: {
-                      label: "Пошта",
-                      rules: _vm.emailRules,
-                      required: ""
-                    },
+                    attrs: { label: "Пошта", rules: _vm.emailRules },
                     model: {
                       value: _vm.customer.email,
                       callback: function($$v) {
@@ -43949,7 +44078,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("v-text-field", {
-                    attrs: { label: "Адреса доставки", required: "" },
+                    attrs: { label: "Адреса доставки" },
                     model: {
                       value: _vm.customer.delivery,
                       callback: function($$v) {
@@ -43960,7 +44089,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("v-text-field", {
-                    attrs: { label: "Рейтинг", type: "number", required: "" },
+                    attrs: { label: "Рейтинг", type: "number" },
                     model: {
                       value: _vm.customer.rate_value,
                       callback: function($$v) {
@@ -44753,7 +44882,8 @@ var render = function() {
                       label: "Клієнт",
                       items: _vm.customers,
                       "item-text": "name",
-                      "item-value": "id"
+                      "item-value": "id",
+                      required: ""
                     },
                     scopedSlots: _vm._u([
                       {
@@ -44799,7 +44929,8 @@ var render = function() {
                       items: _vm.sources,
                       "item-text": "name",
                       "item-value": "id",
-                      label: "Джерело"
+                      label: "Джерело",
+                      required: ""
                     },
                     model: {
                       value: _vm.order.order_type_id,
@@ -44811,12 +44942,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("v-text-field", {
-                    attrs: {
-                      label: "Вартiсть",
-                      rules: _vm.price_rule,
-                      prefix: "грн",
-                      required: ""
-                    },
+                    attrs: { type: "number", label: "Вартiсть", prefix: "грн" },
                     model: {
                       value: _vm.order.price,
                       callback: function($$v) {
@@ -44831,7 +44957,8 @@ var render = function() {
                       items: _vm.paytypes,
                       "item-text": "name",
                       "item-value": "id",
-                      label: "Спосiб оплати"
+                      label: "Спосiб оплати",
+                      required: "true"
                     },
                     model: {
                       value: _vm.order.pay_type_id,
@@ -44854,7 +44981,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("v-text-field", {
-                    attrs: { label: "Встановити задачу", required: "" },
+                    attrs: { label: "Встановити задачу" },
                     model: {
                       value: _vm.order.text_execution,
                       callback: function($$v) {
@@ -44894,7 +45021,7 @@ var render = function() {
                                 _vm._g(
                                   {
                                     attrs: {
-                                      label: "Picker in dialog",
+                                      label: "Дата",
                                       "prepend-icon": "event",
                                       readonly: ""
                                     },
@@ -44955,6 +45082,50 @@ var render = function() {
                     ],
                     1
                   ),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    attrs: { label: "Адреса доставки" },
+                    model: {
+                      value: _vm.order.delivery_adress,
+                      callback: function($$v) {
+                        _vm.$set(_vm.order, "delivery_adress", $$v)
+                      },
+                      expression: "order.delivery_adress"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "#",
+                        onclick:
+                          "document.getElementById('upload').click(); return false;"
+                      }
+                    },
+                    [_vm._v("Додати креслення")]
+                  ),
+                  _vm._v(" "),
+                  _vm.draw_name
+                    ? _c("span", { staticClass: "black--text" }, [
+                        _vm._v(_vm._s(_vm.draw_name))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticStyle: { visibility: "hidden" },
+                    attrs: {
+                      type: "file",
+                      name: "upload",
+                      id: "upload",
+                      accept: ".pdf"
+                    },
+                    on: {
+                      change: function($event) {
+                        return _vm.setDraw($event)
+                      }
+                    }
+                  }),
                   _vm._v(" "),
                   _c(
                     "v-btn",
@@ -45129,7 +45300,8 @@ var render = function() {
                       label: "Клієнт",
                       items: _vm.customers,
                       "item-text": "name",
-                      "item-value": "id"
+                      "item-value": "id",
+                      required: ""
                     },
                     scopedSlots: _vm._u([
                       {
@@ -45188,10 +45360,10 @@ var render = function() {
                   _vm._v(" "),
                   _c("v-text-field", {
                     attrs: {
+                      type: "number",
+                      min: "0",
                       label: "Вартiсть",
-                      rules: _vm.price_rule,
-                      prefix: "грн",
-                      required: ""
+                      prefix: "грн"
                     },
                     model: {
                       value: _vm.order.price,
@@ -45230,7 +45402,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("v-text-field", {
-                    attrs: { label: "Встановити задачу", required: "" },
+                    attrs: { label: "Встановити задачу" },
                     model: {
                       value: _vm.order.text_execution,
                       callback: function($$v) {
@@ -45270,7 +45442,7 @@ var render = function() {
                                 _vm._g(
                                   {
                                     attrs: {
-                                      label: "Picker in dialog",
+                                      label: "Дата",
                                       "prepend-icon": "event",
                                       readonly: ""
                                     },
@@ -45332,6 +45504,64 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
+                  _c("v-text-field", {
+                    attrs: { label: "Адреса доставки" },
+                    model: {
+                      value: _vm.order.delivery_adress,
+                      callback: function($$v) {
+                        _vm.$set(_vm.order, "delivery_adress", $$v)
+                      },
+                      expression: "order.delivery_adress"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href: "#",
+                        onclick:
+                          "document.getElementById('upload').click(); return false;"
+                      }
+                    },
+                    [_vm._v("Додати нове креслення")]
+                  ),
+                  _vm._v(" "),
+                  _vm.draw_name
+                    ? _c("span", { staticClass: "black--text" }, [
+                        _vm._v(_vm._s(_vm.draw_name))
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticStyle: { visibility: "hidden" },
+                    attrs: {
+                      type: "file",
+                      name: "upload",
+                      id: "upload",
+                      accept: ".pdf"
+                    },
+                    on: {
+                      change: function($event) {
+                        return _vm.setDraw($event)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.order.draw
+                    ? _c(
+                        "v-btn",
+                        {
+                          on: {
+                            click: function($event) {
+                              return _vm.getDraw()
+                            }
+                          }
+                        },
+                        [_vm._v("Завантажити креслення")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c(
                     "v-btn",
                     {
@@ -45342,7 +45572,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Додати ще матерiали зi складу")]
+                    [_vm._v("Додати матерiали зi складу")]
                   ),
                   _vm._v(" "),
                   _vm._l(_vm.order.material_id, function(material, index) {
@@ -46176,6 +46406,16 @@ var render = function() {
       _vm.loading
         ? _c("div", { staticClass: "loading" }, [_c("loader")], 1)
         : _vm._e(),
+      _vm._v("\n    " + _vm._s(_vm.getDateTime) + "\n    "),
+      _c("h3", { staticClass: "datetime" }, [
+        _vm._v(
+          "\n        " +
+            _vm._s(_vm.date) +
+            " – " +
+            _vm._s(_vm.time) +
+            "\n\n    "
+        )
+      ]),
       _vm._v(" "),
       _vm.error
         ? _c(
@@ -88955,8 +89195,8 @@ __webpack_require__.r(__webpack_exports__);
   find: function find(id) {
     return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/orders/".concat(id));
   },
-  update: function update(id, data) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("/api/orders/".concat(id), data);
+  update: function update(id, data, config) {
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/orders/".concat(id), data, config);
   },
   updateAll: function updateAll(data) {
     return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/orders/updateAll", data);
@@ -88964,8 +89204,11 @@ __webpack_require__.r(__webpack_exports__);
   delete: function _delete(id) {
     return axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete("/api/orders/".concat(id));
   },
-  create: function create(user) {
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/orders/create', user);
+  create: function create(data, config) {
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/orders/create', data, config);
+  },
+  getDraw: function getDraw(draw, config) {
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/orders/draw", draw, config);
   }
 });
 

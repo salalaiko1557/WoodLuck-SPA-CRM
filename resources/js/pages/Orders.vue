@@ -347,10 +347,13 @@ export default {
         },
         updateCanbanColumn(event, col){
             let id = event.item.getAttribute('data-id');
-            api
-                .update( id, {
-                    canban_column: col
-                })
+            let form = new FormData();
+            form.set('_method', 'PUT');
+            form.set('canban_column', col);
+            api.update(id, form, {headers: {'Content-Type': 'multipart/form-data'}})
+            // api.update( id, {
+            //         canban_column: col
+            //     })
                 .then((response) => {
                     this.error = 'Стан замовлень було змiнено';
                     setTimeout(() => this.error = null, 2000);
@@ -502,6 +505,7 @@ export default {
     padding: 10px;
     justify-content: center;
     align-items: flex-start;
+    min-height: 900px;
 }
 .primary-button-options:hover{
     text-decoration: none;

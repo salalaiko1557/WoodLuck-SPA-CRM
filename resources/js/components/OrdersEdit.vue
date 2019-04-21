@@ -25,6 +25,7 @@
                 v-model="order.customer_id"
                 item-text="name"
                 item-value="id"
+                required
             >
             <template slot="selection" slot-scope="data">
                 {{ data.item.name }} {{data.item.surname}}
@@ -34,12 +35,12 @@
             </template>
             </v-select>
             <v-select v-model="order.order_type_id" :items="sources" item-text="name" item-value="id" label="Джерело"></v-select>
-            <v-text-field v-model="order.price" label="Вартiсть" :rules="price_rule" prefix="грн" required></v-text-field>
+            <v-text-field v-model="order.price" type="number" min="0" label="Вартiсть" prefix="грн"></v-text-field>
 
             <v-select v-model="order.pay_type_id" :items="paytypes" item-text="name" item-value="id" label="Спосiб оплати"></v-select>
 
             <v-textarea name="input-7-1" label="Опис замовлення" v-model="order.description"></v-textarea>
-            <v-text-field v-model="order.text_execution" label="Встановити задачу" required></v-text-field>
+            <v-text-field v-model="order.text_execution" label="Встановити задачу" ></v-text-field>
             <v-dialog
                 ref="dialog"
                 :return-value.sync="order.date_execution"
@@ -50,7 +51,7 @@
                 <template v-slot:activator="{ on }">
                     <v-text-field
                         v-model="order.date_execution"
-                        label="Picker in dialog"
+                        label="Дата"
                         prepend-icon="event"
                         readonly
                         v-on="on"
@@ -62,8 +63,17 @@
                     <v-btn flat color="primary" @click="$refs.dialog.save(order.date_execution)">OK</v-btn>
                 </v-date-picker>
             </v-dialog>
+            <v-text-field v-model="order.delivery_adress" label="Адреса доставки"></v-text-field>
+                <a href="#" onclick="document.getElementById('upload').click(); return false;">Додати нове креслення</a>
+                <span class="black--text" v-if="draw_name">{{draw_name}}</span>
+                 <input type="file" name="upload" id="upload" accept=".pdf"
+                    @change="setDraw($event)"
+                    style="visibility: hidden;">
 
-            <v-btn flat color="primary" @click="addInputGroup(event++)">Додати ще матерiали зi складу</v-btn>
+
+                <v-btn v-if="order.draw" @click="getDraw()">Завантажити креслення</v-btn>
+
+            <v-btn flat color="primary" @click="addInputGroup(event++)">Додати матерiали зi складу</v-btn>
 
             <!-- SELECT -->
 
@@ -130,18 +140,19 @@ export default {
     loaded:  false,
     message: null,
     check_count: true,
-      order: {
+    order: {
         id:             null,
         customer_id:    null,
         order_type_id:  null,
-        price:          "",
+        price:          0,
         pay_type_id:    null,
         description:    "",
         text_execution: "",
         date_execution: null,
         material_id:    "",
-        material_count: null,
+        material_count: 0,
         draw:           "",
+        delivery_adress: ""
       },
     customers:        [],
     sources:          [],
@@ -149,40 +160,103 @@ export default {
     customer_id:      null,
     customer_name:    "",
     customer_surname: "",
-    price_rule:[
-        v => /\b\d+\.\d{2}\b/.test(v) || 'Цiна повинна мати 2 символа пiсля точки (000.00)'
-      ]
+    draw_name: '',
+    // price_rule:[
+    //     v => /\b\d+\.\d{2}\b/.test(v) || 'Цiна повинна мати 2 символа пiсля точки (000.00)'
+    //   ]
     }
   },
   methods: {
     addInputGroup(event){
         this.material_input_id_new.push(event)
     },
+    setDraw(event){
+        this.order.draw = event.target.files[0];
+        this.draw_name = event.target.files[0].name;
+    },
+    getDraw(){
+         let form = new FormData();
+         form.set('draw', this.order.draw);
+        api.getDraw(form, {responseType: 'arraybuffer'})
+            .then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data],  {type: 'application/pdf'}));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'Креслення '+this.order.id+'.pdf'); //or any other extension
+                document.body.appendChild(link);
+                link.click();
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    },
+
     onSubmit(event) {
         this.saving = true;
         this.checkStockCount();
         if (!this.check_count){
             this.message = 'Ви задали кiлькiсть матерiалу, бiльшу нiж на складi';
             setTimeout(2000);
-        }
-        api.update(this.order.id, {
-            customer_id:    this.order.customer_id,
-            order_type_id:  this.order.order_type_id,
-            pay_type_id:    this.order.pay_type_id,
-            price:          this.order.price,
-            description:    this.order.description,
-            text_execution: this.order.text_execution,
-            date_execution: this.order.date_execution,
-            material_id:    this.order.material_id.concat(this.material_objects_from_child).concat(this.material_objects_from_child_new),
-            material_count: this.order.material_count,
-            draw:           this.order.draw
-        }).then((response) => {
+        }else{
+            if(this.order.material_id){
+                if(this.material_objects_from_child){
+                  var materialsJson = JSON.stringify(this.order.material_id.concat(this.material_objects_from_child));
+                }
+                if(this.material_objects_from_child_new){
+                  var materialsJson = JSON.stringify(this.order.material_id.concat(this.material_objects_from_child_new));
+                }
+                else{
+                    var materialsJson = JSON.stringify(this.order.material_id.concat(this.material_objects_from_child).concat(this.material_objects_from_child_new));
+                }
+            }else{
+                 var materialsJson = null
+            }
+
+            let form = new FormData();
+            form.set('_method', 'PUT');
+
+            form.set('customer_id', this.order.customer_id);
+            form.set('order_type_id', this.order.order_type_id);
+            form.set('price', this.order.price);
+            form.set('pay_type_id', this.order.pay_type_id);
+            form.set('description', this.order.description);
+            form.set('text_execution', this.order.text_execution);
+            form.set('date_execution', this.order.date_execution);
+            form.append('material_id', materialsJson);
+            // form.set('material_count', this.order.material_count);
+            form.set('delivery_adress', this.order.delivery_adress);
+            if(typeof this.order.draw !== 'string'){
+                form.append('draw', this.order.draw, this.draw_name);
+            }
+            api.update(this.order.id, form, {headers: {'Content-Type': 'multipart/form-data'}})
+        .then((response) => {
             this.message = 'Замовлення оновлено!';
             setTimeout(() => this.$router.push({ name: 'orders.index' }), 2000);
-            setTimeout(() => location.reload(), 3000);
-        }).catch(error => {
+             setTimeout(() => location.reload(), 3000);
+        })
+        .catch(error => {
             this.error = error.response.data.message || error.message;
         })
+            // .then((response) => {
+            // })
+            // .catch(error => {
+            //     console.log(error)
+            // })
+            // api.update(this.order.id, {
+            // customer_id:    this.order.customer_id,
+            // order_type_id:  this.order.order_type_id,
+            // pay_type_id:    this.order.pay_type_id,
+            // price:          this.order.price,
+            // description:    this.order.description,
+            // text_execution: this.order.text_execution,
+            // date_execution: this.order.date_execution,
+            // material_id:    this.order.material_id ? this.order.material_id.concat(this.material_objects_from_child).concat(this.material_objects_from_child_new) : '',
+            // material_count: this.order.material_count,
+            // draw:           this.order.draw,
+            // delivery_adress: this.order.delivery_adress
+        //})
+
+        }
     },
         checkStockCount(){
         if (this.material_objects_from_child_new === []){
@@ -223,7 +297,7 @@ export default {
         this.saving = true;
         api.delete(this.order.id)
             .then((response) => {
-                this.message = 'ORDER Deleted';
+                this.message = 'Замовлення видалено';
                 setTimeout(() => this.$router.push({ name: 'orders.index' }), 2000);
              });
     },
@@ -233,7 +307,7 @@ export default {
             this.loaded = true;
             this.order = response.data.data;
             this.event = Math.floor(Math.random() * 1000) + 1;
-                // console.log(this.order.material_id);
+            this.order.material_id = JSON.parse(response.data.data.material_id);
 
         }, 2000);
         })
