@@ -46491,7 +46491,7 @@ var render = function() {
                     _vm._v("Перелiк матерiалiв:")
                   ]),
                   _vm._v(" "),
-                  _vm._l(order.material_id, function(material) {
+                  _vm._l(JSON.parse(order.material_id), function(material) {
                     return _c(
                       "span",
                       {
