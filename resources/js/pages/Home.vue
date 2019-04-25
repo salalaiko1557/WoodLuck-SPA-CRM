@@ -123,6 +123,7 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 10px;
+    max-width: 400px;
     margin: 10px;
     background: white;
 
