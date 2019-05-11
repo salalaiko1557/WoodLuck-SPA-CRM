@@ -14,7 +14,7 @@ class AddOrderNumberColumnToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->integer('order_number')->nullable();
+            $table->string('order_number')->nullable();
         });
     }
 
