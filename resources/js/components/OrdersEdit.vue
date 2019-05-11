@@ -19,6 +19,7 @@
             <v-toolbar-title class="form-title">Редагування замовлення</v-toolbar-title>
 
             <form class="action-form" @submit.prevent="onSubmit(order)">
+            <v-text-field v-model="order.order_number" type="number" label="Номер замовлення" prefix="№"></v-text-field>
             <v-select
                 label="Клієнт"
                 :items="customers"
@@ -152,7 +153,8 @@ export default {
         material_id:    "",
         material_count: 0,
         draw:           "",
-        delivery_adress: ""
+        delivery_adress: "",
+        order_number: null
       },
     customers:        [],
     sources:          [],
@@ -215,6 +217,7 @@ export default {
             let form = new FormData();
             form.set('_method', 'PUT');
 
+            form.set('order_number', this.order.order_number);
             form.set('customer_id', this.order.customer_id);
             form.set('order_type_id', this.order.order_type_id);
             form.set('price', this.order.price);
@@ -237,25 +240,6 @@ export default {
         .catch(error => {
             this.error = error.response.data.message || error.message;
         })
-            // .then((response) => {
-            // })
-            // .catch(error => {
-            //     console.log(error)
-            // })
-            // api.update(this.order.id, {
-            // customer_id:    this.order.customer_id,
-            // order_type_id:  this.order.order_type_id,
-            // pay_type_id:    this.order.pay_type_id,
-            // price:          this.order.price,
-            // description:    this.order.description,
-            // text_execution: this.order.text_execution,
-            // date_execution: this.order.date_execution,
-            // material_id:    this.order.material_id ? this.order.material_id.concat(this.material_objects_from_child).concat(this.material_objects_from_child_new) : '',
-            // material_count: this.order.material_count,
-            // draw:           this.order.draw,
-            // delivery_adress: this.order.delivery_adress
-        //})
-
         }
     },
         checkStockCount(){

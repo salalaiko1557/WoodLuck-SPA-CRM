@@ -29,7 +29,8 @@ class OrderResource extends JsonResource
             'canban_column'  => $this->canban_column,
             'draw'           => $this->draw,
             'mires_id'       => $this->mires_id,
-            'delivery_adress'=> $this->delivery_adress
+            'delivery_adress'=> $this->delivery_adress,
+            'order_number'   => $this->order_number
         ];
     }
 }

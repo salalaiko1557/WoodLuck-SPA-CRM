@@ -26,6 +26,7 @@ class Orders extends Model
         'canban_column',
         'draw',
         'mires_id',
-	    'delivery_adress'
+        'delivery_adress',
+        'order_number'
     ];
 }

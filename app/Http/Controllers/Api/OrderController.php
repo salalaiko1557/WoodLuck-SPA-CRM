@@ -62,7 +62,8 @@ class OrderController extends Controller
             'canban_column'  => '',
             'draw'           => '',
             'mires_id'       => '',
-            'delivery_adress'=> ''
+            'delivery_adress'=> '',
+            'order_number'   => ''
         ]);
 
         if($request->file('draw')){
@@ -74,9 +75,7 @@ class OrderController extends Controller
 
         return new OrderResource($order);
     }
-    public function poebota(Request $request) {
-        info($request);
-    }
+
     public function destroy(Orders $order)
     {
         $order->delete();
@@ -99,7 +98,8 @@ class OrderController extends Controller
             'canban_column'  => '',
             'draw'           => '',
             'mires_id'       => '',
-            'delivery_adress'=> ''
+            'delivery_adress'=> '',
+            'order_number'   => ''
         ]);
          if($request->file('draw')){
             $data['draw'] = $request->file('draw')->store('uploads', 'public');

@@ -20,9 +20,7 @@
         <h3 class="page-title">Замовлення в роботi</h3>
         <section v-if="orders" class="order-cards__wr">
             <div class="single-card" v-for="order in orders" :key="order.id">
-                <span class="card-item__title-first" v-if="order.id.toString().length === 1">Замовлення № 000{{order.id}}</span>
-                <span class="card-item__title-first" v-if="order.id.toString().length === 2">Замовлення № 00{{order.id}}</span>
-                <span class="card-item__title-first" v-if="order.id.toString().length === 3">Замовлення № 0{{order.id}}</span>
+                <span class="card-item__title-first" >№ {{order.order_number}}</span>
                 <span class="card-item__title-second" v-for="customer in customers" :key="customer.id">
                     <span v-if="order.customer_id === customer.id">
                         Замовник: {{customer.name}} {{customer.surname}}</span>

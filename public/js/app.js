@@ -2743,9 +2743,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 
@@ -2776,7 +2773,8 @@ __webpack_require__.r(__webpack_exports__);
         material_id: "",
         material_count: "",
         draw: null,
-        delivery_adress: ""
+        delivery_adress: "",
+        order_number: null
       },
       customers: [],
       sources: [],
@@ -2815,6 +2813,7 @@ __webpack_require__.r(__webpack_exports__);
         setTimeout(1000);
       } else {
         var form = new FormData();
+        form.set('order_number', this.order.order_number);
         form.set('customer_id', this.order.customer_id);
         form.set('order_type_id', this.order.order_type_id);
         form.set('price', this.order.price);
@@ -2843,24 +2842,7 @@ __webpack_require__.r(__webpack_exports__);
           }, 3000);
         }).catch(function (error) {
           console.log(error.message);
-        }) // .then((response) => {
-        // })
-        // .catch(error => {
-        //     console.log(error)
-        // })
-        // api.create({
-        //     customer_id: this.order.customer_id,
-        //     order_type_id : this.order.order_type_id,
-        //     price : this.order.price,
-        //     pay_type_id : this.order.pay_type_id,
-        //     description : this.order.description,
-        //     text_execution : this.order.text_execution,
-        //     date_execution : this.order.date_execution,
-        //     material_id : this.order.material_id,
-        //     material_count : this.order.material_count,
-        //     delivery_adress : this.order.delivery_adress
-        // }, {})
-        .then(function () {
+        }).then(function () {
           return _this.saving = false;
         });
       }
@@ -3070,6 +3052,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -3108,7 +3091,8 @@ __webpack_require__.r(__webpack_exports__);
         material_id: "",
         material_count: 0,
         draw: "",
-        delivery_adress: ""
+        delivery_adress: "",
+        order_number: null
       },
       customers: [],
       sources: [],
@@ -3177,6 +3161,7 @@ __webpack_require__.r(__webpack_exports__);
 
         var form = new FormData();
         form.set('_method', 'PUT');
+        form.set('order_number', this.order.order_number);
         form.set('customer_id', this.order.customer_id);
         form.set('order_type_id', this.order.order_type_id);
         form.set('price', this.order.price);
@@ -3208,24 +3193,7 @@ __webpack_require__.r(__webpack_exports__);
           }, 3000);
         }).catch(function (error) {
           _this2.error = error.response.data.message || error.message;
-        }); // .then((response) => {
-        // })
-        // .catch(error => {
-        //     console.log(error)
-        // })
-        // api.update(this.order.id, {
-        // customer_id:    this.order.customer_id,
-        // order_type_id:  this.order.order_type_id,
-        // pay_type_id:    this.order.pay_type_id,
-        // price:          this.order.price,
-        // description:    this.order.description,
-        // text_execution: this.order.text_execution,
-        // date_execution: this.order.date_execution,
-        // material_id:    this.order.material_id ? this.order.material_id.concat(this.material_objects_from_child).concat(this.material_objects_from_child_new) : '',
-        // material_count: this.order.material_count,
-        // draw:           this.order.draw,
-        // delivery_adress: this.order.delivery_adress
-        //})
+        });
       }
     },
     checkStockCount: function checkStockCount() {
@@ -3822,8 +3790,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 
@@ -3897,15 +3863,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_Loader_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Loader.vue */ "./resources/js/components/Loader.vue");
 /* harmony import */ var _api_customers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api/customers */ "./resources/js/api/customers.js");
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -44879,6 +44836,21 @@ var render = function() {
                   }
                 },
                 [
+                  _c("v-text-field", {
+                    attrs: {
+                      type: "number",
+                      label: "Номер замовлення",
+                      prefix: "№"
+                    },
+                    model: {
+                      value: _vm.order.order_number,
+                      callback: function($$v) {
+                        _vm.$set(_vm.order, "order_number", $$v)
+                      },
+                      expression: "order.order_number"
+                    }
+                  }),
+                  _vm._v(" "),
                   _c("v-select", {
                     attrs: {
                       label: "Клієнт",
@@ -45297,6 +45269,21 @@ var render = function() {
                   }
                 },
                 [
+                  _c("v-text-field", {
+                    attrs: {
+                      type: "number",
+                      label: "Номер замовлення",
+                      prefix: "№"
+                    },
+                    model: {
+                      value: _vm.order.order_number,
+                      callback: function($$v) {
+                        _vm.$set(_vm.order, "order_number", $$v)
+                      },
+                      expression: "order.order_number"
+                    }
+                  }),
+                  _vm._v(" "),
                   _c("v-select", {
                     attrs: {
                       label: "Клієнт",
@@ -46445,23 +46432,9 @@ var render = function() {
                 "div",
                 { key: order.id, staticClass: "single-card" },
                 [
-                  order.id.toString().length === 1
-                    ? _c("span", { staticClass: "card-item__title-first" }, [
-                        _vm._v("Замовлення № 000" + _vm._s(order.id))
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  order.id.toString().length === 2
-                    ? _c("span", { staticClass: "card-item__title-first" }, [
-                        _vm._v("Замовлення № 00" + _vm._s(order.id))
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  order.id.toString().length === 3
-                    ? _c("span", { staticClass: "card-item__title-first" }, [
-                        _vm._v("Замовлення № 0" + _vm._s(order.id))
-                      ])
-                    : _vm._e(),
+                  _c("span", { staticClass: "card-item__title-first" }, [
+                    _vm._v("№ " + _vm._s(order.order_number))
+                  ]),
                   _vm._v(" "),
                   _vm._l(_vm.customers, function(customer) {
                     return _c(
@@ -46749,29 +46722,11 @@ var render = function() {
                                 "div",
                                 { staticClass: "canban-content" },
                                 [
-                                  order.id.toString().length === 1
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 000" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  order.id.toString().length === 2
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 00" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  order.id.toString().length === 3
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 0" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
+                                  _c(
+                                    "span",
+                                    { staticClass: "item__title-first" },
+                                    [_vm._v("№ " + _vm._s(order.order_number))]
+                                  ),
                                   _vm._v(" "),
                                   _vm._l(_vm.customers, function(customer) {
                                     return _c(
@@ -46945,29 +46900,11 @@ var render = function() {
                                 "div",
                                 { staticClass: "canban-content" },
                                 [
-                                  order.id.toString().length === 1
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 000" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  order.id.toString().length === 2
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 00" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  order.id.toString().length === 3
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 0" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
+                                  _c(
+                                    "span",
+                                    { staticClass: "item__title-first" },
+                                    [_vm._v("№ " + _vm._s(order.order_number))]
+                                  ),
                                   _vm._v(" "),
                                   _vm._l(_vm.customers, function(customer) {
                                     return _c(
@@ -47141,29 +47078,11 @@ var render = function() {
                                 "div",
                                 { staticClass: "canban-content" },
                                 [
-                                  order.id.toString().length === 1
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 000" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  order.id.toString().length === 2
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 00" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  order.id.toString().length === 3
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 0" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
+                                  _c(
+                                    "span",
+                                    { staticClass: "item__title-first" },
+                                    [_vm._v("№ " + _vm._s(order.order_number))]
+                                  ),
                                   _vm._v(" "),
                                   _vm._l(_vm.customers, function(customer) {
                                     return _c(
@@ -47333,29 +47252,11 @@ var render = function() {
                                 "div",
                                 { staticClass: "canban-content" },
                                 [
-                                  order.id.toString().length === 1
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 000" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  order.id.toString().length === 2
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 00" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  order.id.toString().length === 3
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 0" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
+                                  _c(
+                                    "span",
+                                    { staticClass: "item__title-first" },
+                                    [_vm._v("№ " + _vm._s(order.order_number))]
+                                  ),
                                   _vm._v(" "),
                                   _vm._l(_vm.customers, function(customer) {
                                     return _c(
@@ -47525,29 +47426,11 @@ var render = function() {
                                 "div",
                                 { staticClass: "canban-content" },
                                 [
-                                  order.id.toString().length === 1
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 000" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  order.id.toString().length === 2
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 00" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  order.id.toString().length === 3
-                                    ? _c(
-                                        "span",
-                                        { staticClass: "item__title-first" },
-                                        [_vm._v("№ 0" + _vm._s(order.id))]
-                                      )
-                                    : _vm._e(),
+                                  _c(
+                                    "span",
+                                    { staticClass: "item__title-first" },
+                                    [_vm._v("№ " + _vm._s(order.order_number))]
+                                  ),
                                   _vm._v(" "),
                                   _vm._l(_vm.customers, function(customer) {
                                     return _c(

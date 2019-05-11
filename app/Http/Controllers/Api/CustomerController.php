@@ -64,8 +64,6 @@ class CustomerController extends Controller
     }
     public function updateAll(Request $request)
     {
-        info($request);
-
         return response('Update success', 200);
     }
 }

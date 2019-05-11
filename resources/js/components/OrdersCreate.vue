@@ -19,6 +19,7 @@
             <v-toolbar-title class="form-title">Додати замовлення</v-toolbar-title>
 
             <form class="action-form" @submit.prevent="onSubmit(order)">
+            <v-text-field v-model="order.order_number" type="number" label="Номер замовлення" prefix="№"></v-text-field>
             <v-select
                 label="Клієнт"
                 :items="customers"
@@ -65,11 +66,7 @@
             </v-dialog>
 
             <v-text-field v-model="order.delivery_adress" label="Адреса доставки"></v-text-field>
-                <!-- <v-text-field
-                label="Чертеж"
-                type="file"
-                @change="setDraw"
-                ></v-text-field> -->
+
                 <a href="#" onclick="document.getElementById('upload').click(); return false;">Додати креслення</a>
                 <span class="black--text" v-if="draw_name">{{draw_name}}</span>
                  <input type="file" name="upload" id="upload" accept=".pdf"
@@ -140,7 +137,8 @@ export default {
         material_id:    "",
         material_count: "",
         draw:           null,
-        delivery_adress: ""
+        delivery_adress: "",
+        order_number: null
       },
       customers:        [],
       sources:          [],
@@ -178,7 +176,7 @@ export default {
         else{
 
             let form = new FormData();
-
+            form.set('order_number', this.order.order_number);
             form.set('customer_id', this.order.customer_id);
             form.set('order_type_id', this.order.order_type_id);
             form.set('price', this.order.price);
@@ -200,24 +198,6 @@ export default {
             .catch(error => {
                 console.log(error.message)
             })
-            // .then((response) => {
-            // })
-            // .catch(error => {
-            //     console.log(error)
-            // })
-        // api.create({
-        //     customer_id: this.order.customer_id,
-        //     order_type_id : this.order.order_type_id,
-        //     price : this.order.price,
-        //     pay_type_id : this.order.pay_type_id,
-        //     description : this.order.description,
-        //     text_execution : this.order.text_execution,
-        //     date_execution : this.order.date_execution,
-        //     material_id : this.order.material_id,
-        //     material_count : this.order.material_count,
-        //     delivery_adress : this.order.delivery_adress
-        // }, {})
-
         .then( () => this.saving = false);
         }
     },

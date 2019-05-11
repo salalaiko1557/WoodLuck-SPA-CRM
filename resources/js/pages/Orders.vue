@@ -69,9 +69,8 @@
                     >
                         <v-card-title primary-title class="card-canban">
                             <div class="canban-content" v-if="order">
-                                <span class="item__title-first" v-if="order.id.toString().length === 1">№ 000{{order.id}}</span>
-                                <span class="item__title-first" v-if="order.id.toString().length === 2">№ 00{{order.id}}</span>
-                                <span class="item__title-first" v-if="order.id.toString().length === 3">№ 0{{order.id}}</span>
+
+                                <span class="item__title-first" >№ {{order.order_number}}</span>
                                 <span class="item__title-second" v-for="customer in customers" :key="customer.id">
                                     <span v-if="order.customer_id === customer.id">
                                         {{customer.name}} {{customer.surname}}</span>
@@ -118,9 +117,7 @@
                     >
                         <v-card-title primary-title class="card-canban">
                             <div class="canban-content" v-if="order">
-                                <span class="item__title-first" v-if="order.id.toString().length === 1">№ 000{{order.id}}</span>
-                                <span class="item__title-first" v-if="order.id.toString().length === 2">№ 00{{order.id}}</span>
-                                <span class="item__title-first" v-if="order.id.toString().length === 3">№ 0{{order.id}}</span>
+                                <span class="item__title-first" >№ {{order.order_number}}</span>
                                 <span class="item__title-second" v-for="customer in customers" :key="customer.id">
                                 <span v-if="order.customer_id === customer.id">
                                     {{customer.name}} {{customer.surname}}</span>
@@ -167,9 +164,7 @@
                     >
                         <v-card-title primary-title class="card-canban">
                             <div class="canban-content" v-if="order">
-                                <span class="item__title-first" v-if="order.id.toString().length === 1">№ 000{{order.id}}</span>
-                                <span class="item__title-first" v-if="order.id.toString().length === 2">№ 00{{order.id}}</span>
-                                <span class="item__title-first" v-if="order.id.toString().length === 3">№ 0{{order.id}}</span>
+                                <span class="item__title-first" >№ {{order.order_number}}</span>
                                 <span class="item__title-second" v-for="customer in customers" :key="customer.id">
                                 <span v-if="order.customer_id === customer.id">
                                     {{customer.name}} {{customer.surname}}</span>
@@ -216,9 +211,7 @@
                     >
                         <v-card-title primary-title class="card-canban">
                             <div class="canban-content" v-if="order">
-                                <span class="item__title-first" v-if="order.id.toString().length === 1">№ 000{{order.id}}</span>
-                                <span class="item__title-first" v-if="order.id.toString().length === 2">№ 00{{order.id}}</span>
-                                <span class="item__title-first" v-if="order.id.toString().length === 3">№ 0{{order.id}}</span>
+                               <span class="item__title-first" >№ {{order.order_number}}</span>
                                 <span class="item__title-second" v-for="customer in customers" :key="customer.id">
                                 <span v-if="order.customer_id === customer.id">
                                     {{customer.name}} {{customer.surname}}</span>
@@ -265,9 +258,7 @@
                     >
                         <v-card-title primary-title class="card-canban">
                             <div class="canban-content" v-if="order">
-                                <span class="item__title-first" v-if="order.id.toString().length === 1">№ 000{{order.id}}</span>
-                                <span class="item__title-first" v-if="order.id.toString().length === 2">№ 00{{order.id}}</span>
-                                <span class="item__title-first" v-if="order.id.toString().length === 3">№ 0{{order.id}}</span>
+                               <span class="item__title-first" >№ {{order.order_number}}</span>
                                 <span class="item__title-second" v-for="customer in customers" :key="customer.id">
                                 <span v-if="order.customer_id === customer.id">
                                     {{customer.name}} {{customer.surname}}</span>
