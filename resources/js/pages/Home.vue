@@ -28,11 +28,11 @@
                 <span class="card-item__title-fourth" >{{order.description}}</span>
                 <span class="card-item__title-second">Перелiк матерiалiв:</span>
                 <span class="card-item__title-third" v-for="material in JSON.parse(order.material_id) " :key="material.count">
-
                     <span class="card-item__title-fourth" v-if="material.name !== null">{{material.name.name}} - </span>
-
                     <span class="card-item__title-fourth" v-if="material.name !== null">{{material.count}} {{material.name.mire_id}}</span>
                 </span>
+                 <span v-if="order.deadline_date" class="card-item__title-second">Дата здачi: </span>
+                     <span class="card-item__title-fourth">{{order.deadline_date}}</span>
             </div>
         </section>
         <section v-else>

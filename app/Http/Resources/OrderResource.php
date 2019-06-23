@@ -30,7 +30,8 @@ class OrderResource extends JsonResource
             'draw'           => $this->draw,
             'mires_id'       => $this->mires_id,
             'delivery_adress'=> $this->delivery_adress,
-            'order_number'   => $this->order_number
+            'order_number'   => $this->order_number,
+            'deadline_date'  => $this->deadline_date,
         ];
     }
 }

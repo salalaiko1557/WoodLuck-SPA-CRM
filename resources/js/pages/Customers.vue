@@ -59,7 +59,13 @@
                 <td class="text-xs-left">{{ props.item.telephone }}</td>
                 <td class="text-xs-left">{{ props.item.email }}</td>
                 <td class="text-xs-left">{{ props.item.orders_sum }}</td>
-                <td class="text-xs-left">{{ props.item.source_id }}</td>
+                <td class="text-xs-left">
+                    <span v-for="source in sources" :key="source.id">
+                        <span v-if="props.item.source_id === source.id">
+                            {{source.name}}
+                        </span>
+                    </span>
+                </td>
                 <td class="text-xs-left">{{ props.item.delivery }}</td>
                 <td class="text-xs-left">{{ props.item.rate_value }}</td>
                 <td class="text-xs-left">{{ props.item.rate_description }}</td>
@@ -97,6 +103,7 @@
 
 <script>
 import api from '../api/customers';
+import sources_api from '../api/sources';
 
   export default {
     data () {
@@ -106,6 +113,7 @@ import api from '../api/customers';
         saving: false,
         dialog: false,
         customers: [],
+        sources: [],
         dialog_customer_id: null,
         dialog_customer_name: '',
         dialog_customer_surname: '',
@@ -127,12 +135,22 @@ import api from '../api/customers';
     },
     created(){
         this.getCustomers();
+        this.getSources();
     },
     methods:{
         getCustomers(){
             api.all()
                 .then(response => {
                   this.customers = response.data.data;
+                })
+                .catch(error => {
+                    this.error = error.response.data.message || error.message;
+                });
+        },
+        getSources(){
+            sources_api.all()
+                .then(response => {
+                  this.sources = response.data.data;
                 })
                 .catch(error => {
                     this.error = error.response.data.message || error.message;

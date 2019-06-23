@@ -79,6 +79,9 @@
                                 <span class="item__title-first" v-if="order.text_execution">Задача:</span>
                                 <span v-if="order.text_execution">{{order.text_execution}}</span>
                                 <span class="item__title-third" v-if="order.date_execution">{{order.date_execution}}</span>
+                                <span class="item__title-first" v-if="order.deadline_date">Дата здачi</span>
+                                <span class="item__title-third" v-if="order.deadline_date">{{order.deadline_date}}</span>
+
                             </div>
                         </v-card-title>
                         <v-card-actions class="actions__wr">
@@ -126,6 +129,8 @@
                                 <span class="item__title-first" v-if="order.text_execution">Задача:</span>
                                 <span v-if="order.text_execution">{{order.text_execution}}</span>
                                 <span class="item__title-third" v-if="order.date_execution">{{order.date_execution}}</span>
+                                <span class="item__title-first" v-if="order.deadline_date">Дата здачi</span>
+                                <span class="item__title-third" v-if="order.deadline_date">{{order.deadline_date}}</span>
                             </div>
                         </v-card-title>
                         <v-card-actions class="actions__wr">
@@ -173,6 +178,8 @@
                                 <span class="item__title-first" v-if="order.text_execution">Задача:</span>
                                 <span v-if="order.text_execution">{{order.text_execution}}</span>
                                 <span class="item__title-third" v-if="order.date_execution">{{order.date_execution}}</span>
+                                <span class="item__title-first" v-if="order.deadline_date">Дата здачi</span>
+                                <span class="item__title-third" v-if="order.deadline_date">{{order.deadline_date}}</span>
                             </div>
                         </v-card-title>
                         <v-card-actions class="actions__wr">
@@ -220,6 +227,8 @@
                                 <span class="item__title-first" v-if="order.text_execution">Задача:</span>
                                 <span v-if="order.text_execution">{{order.text_execution}}</span>
                                 <span class="item__title-third" v-if="order.date_execution">{{order.date_execution}}</span>
+                                <span class="item__title-first" v-if="order.deadline_date">Дата здачi</span>
+                                <span class="item__title-third" v-if="order.deadline_date">{{order.deadline_date}}</span>
                             </div>
                         </v-card-title>
                         <v-card-actions class="actions__wr">
@@ -267,6 +276,8 @@
                                 <span class="item__title-first" v-if="order.text_execution">Задача:</span>
                                 <span v-if="order.text_execution">{{order.text_execution}}</span>
                                 <span class="item__title-third" v-if="order.date_execution">{{order.date_execution}}</span>
+                                <span class="item__title-first" v-if="order.deadline_date">Дата здачi</span>
+                                <span class="item__title-third" v-if="order.deadline_date">{{order.deadline_date}}</span>
                             </div>
                         </v-card-title>
                         <v-card-actions class="actions__wr">

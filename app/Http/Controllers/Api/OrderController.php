@@ -63,7 +63,8 @@ class OrderController extends Controller
             'draw'           => '',
             'mires_id'       => '',
             'delivery_adress'=> '',
-            'order_number'   => ''
+            'order_number'   => '',
+            'deadline_date'  => '',
         ]);
 
         if($request->file('draw')){
@@ -99,7 +100,8 @@ class OrderController extends Controller
             'draw'           => '',
             'mires_id'       => '',
             'delivery_adress'=> '',
-            'order_number'   => ''
+            'order_number'   => '',
+            'deadline_date'  => '',
         ]);
          if($request->file('draw')){
             $data['draw'] = $request->file('draw')->store('uploads', 'public');

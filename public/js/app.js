@@ -2743,6 +2743,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2774,7 +2795,8 @@ __webpack_require__.r(__webpack_exports__);
         material_count: "",
         draw: null,
         delivery_adress: "",
-        order_number: null
+        order_number: null,
+        deadline_date: new Date().toISOString().substr(0, 10)
       },
       customers: [],
       sources: [],
@@ -2820,7 +2842,8 @@ __webpack_require__.r(__webpack_exports__);
         form.set('pay_type_id', this.order.pay_type_id);
         form.set('description', this.order.description);
         form.set('text_execution', this.order.text_execution);
-        form.set('date_execution', this.order.date_execution); // form.set('material_id', this.material_objects_from_child);
+        form.set('date_execution', this.order.date_execution);
+        form.set('deadline_date', this.order.deadline_date); // form.set('material_id', this.material_objects_from_child);
 
         form.set('material_count', this.order.material_count);
         form.set('delivery_adress', this.order.delivery_adress);
@@ -3053,6 +3076,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3092,7 +3138,8 @@ __webpack_require__.r(__webpack_exports__);
         material_count: 0,
         draw: "",
         delivery_adress: "",
-        order_number: null
+        order_number: null,
+        deadline_date: null
       },
       customers: [],
       sources: [],
@@ -3169,6 +3216,7 @@ __webpack_require__.r(__webpack_exports__);
         form.set('description', this.order.description);
         form.set('text_execution', this.order.text_execution);
         form.set('date_execution', this.order.date_execution);
+        form.set('deadline_date', this.order.deadline_date);
         form.append('material_id', materialsJson); // form.set('material_count', this.order.material_count);
 
         form.set('delivery_adress', this.order.delivery_adress);
@@ -3548,6 +3596,13 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_customers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/customers */ "./resources/js/api/customers.js");
+/* harmony import */ var _api_sources__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api/sources */ "./resources/js/api/sources.js");
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3646,6 +3701,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3654,6 +3710,7 @@ __webpack_require__.r(__webpack_exports__);
       saving: false,
       dialog: false,
       customers: [],
+      sources: [],
       dialog_customer_id: null,
       dialog_customer_name: '',
       dialog_customer_surname: '',
@@ -3694,6 +3751,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.getCustomers();
+    this.getSources();
   },
   methods: {
     getCustomers: function getCustomers() {
@@ -3705,6 +3763,15 @@ __webpack_require__.r(__webpack_exports__);
         _this.error = error.response.data.message || error.message;
       });
     },
+    getSources: function getSources() {
+      var _this2 = this;
+
+      _api_sources__WEBPACK_IMPORTED_MODULE_1__["default"].all().then(function (response) {
+        _this2.sources = response.data.data;
+      }).catch(function (error) {
+        _this2.error = error.response.data.message || error.message;
+      });
+    },
     showDialog: function showDialog(id, name, surname) {
       this.dialog_customer_id = id;
       this.dialog_customer_name = name;
@@ -3712,17 +3779,17 @@ __webpack_require__.r(__webpack_exports__);
       this.dialog = true;
     },
     onDelete: function onDelete() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.saving = true;
       _api_customers__WEBPACK_IMPORTED_MODULE_0__["default"].delete(this.dialog_customer_id).then(function (response) {
-        _this2.message = 'Customer Deleted';
+        _this3.message = 'Customer Deleted';
 
-        _this2.dropDialog();
+        _this3.dropDialog();
 
         location.reload();
       }).catch(function (error) {
-        _this2.error = error.response.data.message || error.message;
+        _this3.error = error.response.data.message || error.message;
       });
     },
     dropDialog: function dropDialog() {
@@ -3863,6 +3930,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_Loader_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Loader.vue */ "./resources/js/components/Loader.vue");
 /* harmony import */ var _api_customers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api/customers */ "./resources/js/api/customers.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -45069,6 +45147,98 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c(
+                    "v-dialog",
+                    {
+                      ref: "dialog2",
+                      attrs: {
+                        "return-value": _vm.order.deadline_date,
+                        persistent: "",
+                        lazy: "",
+                        "full-width": "",
+                        width: "290px"
+                      },
+                      on: {
+                        "update:returnValue": function($event) {
+                          return _vm.$set(_vm.order, "deadline_date", $event)
+                        },
+                        "update:return-value": function($event) {
+                          return _vm.$set(_vm.order, "deadline_date", $event)
+                        }
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "activator",
+                          fn: function(ref) {
+                            var on = ref.on
+                            return [
+                              _c(
+                                "v-text-field",
+                                _vm._g(
+                                  {
+                                    attrs: {
+                                      label: "Дата здачі замовлення",
+                                      "prepend-icon": "event",
+                                      readonly: ""
+                                    },
+                                    model: {
+                                      value: _vm.order.deadline_date,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.order,
+                                          "deadline_date",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "order.deadline_date"
+                                    }
+                                  },
+                                  on
+                                )
+                              )
+                            ]
+                          }
+                        }
+                      ])
+                    },
+                    [
+                      _vm._v(" "),
+                      _c(
+                        "v-date-picker",
+                        {
+                          attrs: { scrollable: "" },
+                          model: {
+                            value: _vm.order.deadline_date,
+                            callback: function($$v) {
+                              _vm.$set(_vm.order, "deadline_date", $$v)
+                            },
+                            expression: "order.deadline_date"
+                          }
+                        },
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { flat: "", color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$refs.dialog2.save(
+                                    _vm.order.deadline_date
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("OK")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
                     "a",
                     {
                       attrs: {
@@ -45503,6 +45673,98 @@ var render = function() {
                       expression: "order.delivery_adress"
                     }
                   }),
+                  _vm._v(" "),
+                  _c(
+                    "v-dialog",
+                    {
+                      ref: "dialog2",
+                      attrs: {
+                        "return-value": _vm.order.deadline_date,
+                        persistent: "",
+                        lazy: "",
+                        "full-width": "",
+                        width: "290px"
+                      },
+                      on: {
+                        "update:returnValue": function($event) {
+                          return _vm.$set(_vm.order, "deadline_date", $event)
+                        },
+                        "update:return-value": function($event) {
+                          return _vm.$set(_vm.order, "deadline_date", $event)
+                        }
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "activator",
+                          fn: function(ref) {
+                            var on = ref.on
+                            return [
+                              _c(
+                                "v-text-field",
+                                _vm._g(
+                                  {
+                                    attrs: {
+                                      label: "Дата здачі замовлення",
+                                      "prepend-icon": "event",
+                                      readonly: ""
+                                    },
+                                    model: {
+                                      value: _vm.order.deadline_date,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.order,
+                                          "deadline_date",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "order.deadline_date"
+                                    }
+                                  },
+                                  on
+                                )
+                              )
+                            ]
+                          }
+                        }
+                      ])
+                    },
+                    [
+                      _vm._v(" "),
+                      _c(
+                        "v-date-picker",
+                        {
+                          attrs: { scrollable: "" },
+                          model: {
+                            value: _vm.order.deadline_date,
+                            callback: function($$v) {
+                              _vm.$set(_vm.order, "deadline_date", $$v)
+                            },
+                            expression: "order.deadline_date"
+                          }
+                        },
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { flat: "", color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$refs.dialog2.save(
+                                    _vm.order.deadline_date
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("OK")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
                   _c(
                     "a",
@@ -46178,9 +46440,24 @@ var render = function() {
                                     _vm._v(_vm._s(props.item.orders_sum))
                                   ]),
                                   _vm._v(" "),
-                                  _c("td", { staticClass: "text-xs-left" }, [
-                                    _vm._v(_vm._s(props.item.source_id))
-                                  ]),
+                                  _c(
+                                    "td",
+                                    { staticClass: "text-xs-left" },
+                                    _vm._l(_vm.sources, function(source) {
+                                      return _c("span", { key: source.id }, [
+                                        props.item.source_id === source.id
+                                          ? _c("span", [
+                                              _vm._v(
+                                                "\n                          " +
+                                                  _vm._s(source.name) +
+                                                  "\n                      "
+                                              )
+                                            ])
+                                          : _vm._e()
+                                      ])
+                                    }),
+                                    0
+                                  ),
                                   _vm._v(" "),
                                   _c("td", { staticClass: "text-xs-left" }, [
                                     _vm._v(_vm._s(props.item.delivery))
@@ -46318,7 +46595,7 @@ var render = function() {
                           ],
                           null,
                           false,
-                          1595716777
+                          2450985089
                         )
                       },
                       [
@@ -46497,7 +46774,17 @@ var render = function() {
                           : _vm._e()
                       ]
                     )
-                  })
+                  }),
+                  _vm._v(" "),
+                  order.deadline_date
+                    ? _c("span", { staticClass: "card-item__title-second" }, [
+                        _vm._v("Дата здачi: ")
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "card-item__title-fourth" }, [
+                    _vm._v(_vm._s(order.deadline_date))
+                  ])
                 ],
                 2
               )
@@ -46778,6 +47065,22 @@ var render = function() {
                                         { staticClass: "item__title-third" },
                                         [_vm._v(_vm._s(order.date_execution))]
                                       )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.deadline_date
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("Дата здачi")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.deadline_date
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.deadline_date))]
+                                      )
                                     : _vm._e()
                                 ],
                                 2
@@ -46955,6 +47258,22 @@ var render = function() {
                                         "span",
                                         { staticClass: "item__title-third" },
                                         [_vm._v(_vm._s(order.date_execution))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.deadline_date
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("Дата здачi")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.deadline_date
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.deadline_date))]
                                       )
                                     : _vm._e()
                                 ],
@@ -47134,6 +47453,22 @@ var render = function() {
                                         { staticClass: "item__title-third" },
                                         [_vm._v(_vm._s(order.date_execution))]
                                       )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.deadline_date
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("Дата здачi")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.deadline_date
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.deadline_date))]
+                                      )
                                     : _vm._e()
                                 ],
                                 2
@@ -47308,6 +47643,22 @@ var render = function() {
                                         { staticClass: "item__title-third" },
                                         [_vm._v(_vm._s(order.date_execution))]
                                       )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.deadline_date
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("Дата здачi")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.deadline_date
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.deadline_date))]
+                                      )
                                     : _vm._e()
                                 ],
                                 2
@@ -47481,6 +47832,22 @@ var render = function() {
                                         "span",
                                         { staticClass: "item__title-third" },
                                         [_vm._v(_vm._s(order.date_execution))]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.deadline_date
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-first" },
+                                        [_vm._v("Дата здачi")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  order.deadline_date
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "item__title-third" },
+                                        [_vm._v(_vm._s(order.deadline_date))]
                                       )
                                     : _vm._e()
                                 ],

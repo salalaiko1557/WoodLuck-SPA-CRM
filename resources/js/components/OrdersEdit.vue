@@ -65,6 +65,29 @@
                 </v-date-picker>
             </v-dialog>
             <v-text-field v-model="order.delivery_adress" label="Адреса доставки"></v-text-field>
+            <v-dialog
+                ref="dialog2"
+                :return-value.sync="order.deadline_date"
+                persistent
+                lazy
+                full-width
+                width="290px">
+                <template v-slot:activator="{ on }">
+                    <v-text-field
+                        v-model="order.deadline_date"
+                        label="Дата здачі замовлення"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                    >
+                </v-text-field>
+                </template>
+                <v-date-picker v-model="order.deadline_date" scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn flat color="primary" @click="$refs.dialog2.save(order.deadline_date)">OK</v-btn>
+                </v-date-picker>
+            </v-dialog>
+
                 <a href="#" onclick="document.getElementById('upload').click(); return false;">Додати нове креслення</a>
                 <span class="black--text" v-if="draw_name">{{draw_name}}</span>
                  <input type="file" name="upload" id="upload" accept=".pdf"
@@ -154,7 +177,8 @@ export default {
         material_count: 0,
         draw:           "",
         delivery_adress: "",
-        order_number: null
+        order_number: null,
+        deadline_date: null,
       },
     customers:        [],
     sources:          [],
@@ -225,6 +249,7 @@ export default {
             form.set('description', this.order.description);
             form.set('text_execution', this.order.text_execution);
             form.set('date_execution', this.order.date_execution);
+            form.set('deadline_date', this.order.deadline_date);
             form.append('material_id', materialsJson);
             // form.set('material_count', this.order.material_count);
             form.set('delivery_adress', this.order.delivery_adress);

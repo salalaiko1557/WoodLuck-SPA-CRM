@@ -27,6 +27,7 @@ class Orders extends Model
         'draw',
         'mires_id',
         'delivery_adress',
-        'order_number'
+        'order_number',
+        'deadline_date'
     ];
 }
