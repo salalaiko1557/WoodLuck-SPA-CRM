@@ -57,6 +57,7 @@
                     <td class="text-xs-left">{{ props.item.name }}</td>
                     <td class="text-xs-left">{{ props.item.count }}</td>
                     <td class="text-xs-left">{{ props.item.mire_id }}</td>
+                    <td class="text-xs-left">{{ props.item.comment }}</td>
                     <td class="text-xs-left">
                         <v-btn flat icon color="indigo">
                                 <router-link class="primary-button-options" :to="{ path: 'stock/'+ props.item.id +'/edit' }">
@@ -116,6 +117,7 @@ import RoleHelper from '../components/RoleHelper.vue'
           { text: "Назва", value: 'name' },
           { text: 'Кiлькiсть', value: 'count' },
           { text: 'Мiра', value: 'mire_id' },
+          { text: 'Комментар' },
           { text: 'Дії' },
         ],
       }

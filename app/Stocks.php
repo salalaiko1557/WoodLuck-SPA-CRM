@@ -13,6 +13,7 @@ class Stocks extends Model
         'mire_id',
         'count',
         'limit',
+        'comment',
         'email'
     ];
 }

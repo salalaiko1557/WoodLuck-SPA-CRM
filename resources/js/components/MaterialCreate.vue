@@ -22,6 +22,7 @@
                     <v-text-field v-model="material.name" label="Назва" required></v-text-field>
                     <v-text-field v-model="material.count" label="Кiлькiсть" required></v-text-field>
                     <v-select v-model="material.mire_id" :items="mires" item-text="name" item-value="reduction" label="Мiра вимiру"></v-select>
+                    <v-text-field label="Комментар" v-model="material.comment"></v-text-field>
                     <section class="notification-block__wr">
                         <div class="notification__wr">
                             <p class="text-left text-lable">Повiдомити на пошту</p>
@@ -60,6 +61,7 @@ export default {
         id:       null,
         name:     "",
         count:    null,
+        comment:    null,
         mire_id:  "",
         limit:    '',
         email:    ''
@@ -75,6 +77,7 @@ export default {
         api.create({
             name:    this.material.name,
             count:   this.material.count,
+            comment: this.material.comment,
             mire_id: this.material.mire_id,
             limit:   this.material.limit,
             email:   this.material.email

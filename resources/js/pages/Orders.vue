@@ -201,7 +201,7 @@
                 <v-card-title
                 primary-title
                 class="col-canban__title">
-                    <h3 class="title">У роботi</h3>
+                    <h3 class="title">В роботi</h3>
                 </v-card-title>
                 <draggable
                 :list = "canban_fourth_column"
@@ -250,7 +250,7 @@
                 <v-card-title
                 primary-title
                 class="col-canban__title">
-                    <h3 class="title mb-0">Сдано</h3>
+                    <h3 class="title mb-0">Здано</h3>
                 </v-card-title>
                 <draggable
                 :list = "canban_fiveth_column"

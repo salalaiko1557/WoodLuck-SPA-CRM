@@ -35,6 +35,8 @@
                 {{ data.item.name }} {{data.item.surname}}
             </template>
             </v-select>
+            <v-btn flat color="primary" to="/customers/create">Додати клiнта</v-btn>
+
             <v-select v-model="order.order_type_id" :items="sources" item-text="name" item-value="id" label="Джерело" required></v-select>
             <v-text-field v-model="order.price" type="number" label="Вартiсть" prefix="грн"></v-text-field>
 
@@ -88,7 +90,7 @@
                     <v-btn flat color="primary" @click="$refs.dialog2.save(order.deadline_date)">OK</v-btn>
                 </v-date-picker>
             </v-dialog>
-                <a href="#" onclick="document.getElementById('upload').click(); return false;">Додати креслення</a>
+                <!-- <a href="#" onclick="document.getElementById('upload').click(); return false;">Додати креслення</a> -->
                 <span class="black--text" v-if="draw_name">{{draw_name}}</span>
                  <input type="file" name="upload" id="upload" accept=".pdf"
                     @change="setDraw($event)"
@@ -148,16 +150,16 @@ export default {
       check_count: true,
       order: {
         id:             null,
-        customer_id:    null,
-        order_type_id:  null,
+        customer_id:    0,
+        order_type_id:  0,
         price:          0,
-        pay_type_id:    null,
+        pay_type_id:    0,
         description:    "",
         text_execution: "",
         date_execution: new Date().toISOString().substr(0, 10),
         material_id:    "",
         material_count: "",
-        draw:           null,
+        draw:           0,
         delivery_adress: "",
         order_number: null,
         deadline_date: new Date().toISOString().substr(0, 10),
@@ -197,6 +199,9 @@ export default {
         }
         else{
 
+            console.log(this.order)
+
+
             let form = new FormData();
             form.set('order_number', this.order.order_number);
             form.set('customer_id', this.order.customer_id);
@@ -210,8 +215,9 @@ export default {
             // form.set('material_id', this.material_objects_from_child);
             form.set('material_count', this.order.material_count);
             form.set('delivery_adress', this.order.delivery_adress);
+            
             form.append('material_id', JSON.stringify(this.material_objects_from_child));
-            form.append('draw', this.order.draw, this.draw_name);
+            // form.append('draw', this.order.draw, this.draw_name);
 
 
             api.create(form, {headers: {'Content-Type': 'multipart/form-data'}})

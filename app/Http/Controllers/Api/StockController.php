@@ -25,6 +25,7 @@ class StockController extends Controller
             'name'    => '',
             'mire_id' => '',
             'count'   => '',
+            'comment' => '',
             'limit'   => '',
             'email'   => ''
         ]);
@@ -45,6 +46,7 @@ class StockController extends Controller
                 'name'    => '',
                 'mire_id' => '',
                 'count'   => '',
+                'comment' => '',
                 'limit'   => '',
                 'email'   => ''
         ]);

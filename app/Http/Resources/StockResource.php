@@ -19,6 +19,7 @@ class StockResource extends JsonResource
             'name'        => $this->name,
             'mire_id'     => $this->mire_id,
             'count'       => $this->count,
+            'comment'     => $this->comment,
             'limit'       => $this->limit,
             'email'       => $this->email
         ];
